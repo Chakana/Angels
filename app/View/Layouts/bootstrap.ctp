@@ -54,12 +54,13 @@
 <body>
   <div id="container">
     <div id="header">
-      <h1>ANGELS</h1>
-      <h2>Sistema de control de ventas e inventarios</h2>
+      <?php echo $this->Element('navigation'); ?>
+      
       
     </div>
     <div id="content">
-
+      <br/>
+      <br/>
       <?php echo $this->Session->flash(); ?>
      
       <?php echo $this->fetch('content'); ?>
