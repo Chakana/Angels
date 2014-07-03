@@ -29,11 +29,12 @@
 
         echo $this->Html->script('jquery-2.1.1.min');
         echo $this->Html->script('jquery-ui-1.10.4');
+        echo $this->Html->script('bootstrap');
 
         echo $this->Html->css('jquery-ui-1.10.4');
-
+        echo $this->Html->css('font-awesome');
         echo $this->Html->css(array('bootstrap'));
-
+        echo $this->Html->css('base');
         echo $this->fetch('meta');
         echo $this->fetch('css');
         echo $this->fetch('script');
@@ -58,14 +59,14 @@
       
       
     </div>
-    <div id="content">
+    <div id="content" class="container">
       <br/>
       <br/>
       <?php echo $this->Session->flash(); ?>
      
       <?php echo $this->fetch('content'); ?>
     </div>
-    <div id="footer">      
+    <div id="footer" class="container">      
       Angels - Sistema de control de Inventarios y Ventas 2014
     </div>
   </div>
