@@ -55,7 +55,7 @@ class PagosController extends AppController {
 				$this->Session->setFlash(__('The pago could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
 			}
 		}
-		$ventas = $this->Pago->Ventum->find('list');
+		$ventas = $this->Pago->Venta->find('list');
 		$this->set(compact('ventas'));
 	}
 
@@ -81,7 +81,7 @@ class PagosController extends AppController {
 			$options = array('conditions' => array('Pago.' . $this->Pago->primaryKey => $id));
 			$this->request->data = $this->Pago->find('first', $options);
 		}
-		$ventas = $this->Pago->Ventum->find('list');
+		$ventas = $this->Pago->Venta->find('list');
 		$this->set(compact('ventas'));
 	}
 
