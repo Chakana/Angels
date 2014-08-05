@@ -11,7 +11,8 @@ class TestsController extends AppController
                 'idventa' => 'NV0001',
                 'nombre_cliente' => 'Victor Perez',
                 'direccion_cliente' => 'Calle Goitia 2033',
-                'totalventa' => '2000 Bs'
+                'totalventa' => '2000 Bs',
+                'telefono_cliente' => '34333434'
                  );      
             $this->set('parametrosReporteVenta',$parametrosReporteVenta);      
              
