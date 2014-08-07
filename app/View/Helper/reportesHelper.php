@@ -41,9 +41,7 @@ class ReporteVenta extends FPDF
     	$this->Image(WWW_ROOT.DS.'img/logo.png',10,8,33);   
         $this->SetFont('Times','B',14);      
         //  Cabecera  
-       
-        $this->Cell(95,65,'CALLTIC SRL',0,0,'L');
-        
+        $this->Cell(60,15,'CALLTIC SRL',0,0,'L');        
         $this->Ln(-15);
              
         $this->Cell(100,45,'NIT:',0,1,'C');
