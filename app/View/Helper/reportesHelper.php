@@ -41,20 +41,18 @@ class ReporteVenta extends FPDF
     	$this->Image(WWW_ROOT.DS.'img/logo.png',10,8,33);   
         $this->SetFont('Times','B',14);      
         //  Cabecera  
-       
-        $this->Cell(60,15,'CALLTIC SRL',0,0,'L');
-        
-        $this->Ln(-10);
+        $this->Cell(60,15,'CALLTIC SRL',0,0,'L');        
+        $this->Ln(-15);
              
-        $this->Cell(60,45,'NIT:',0,1,'L');
+        $this->Cell(100,45,'NIT:',0,1,'C');
         $this->Ln(0);
-        $this->Cell(60,-35,'DIRECCION:',0,1,'L');
+        $this->Cell(120,-35,'DIRECCION:',0,1,'C');
         $this->Ln(0);
          //lineas del encabezado
 	   
-        $this->Line(22, 24,55, 24);
+        //$this->Line(22, 24,55, 24);
         
-        $this->Line(42, 29,90, 29); 	  
+        //$this->Line(42, 29,90, 29); 	  
 
         
     }
