@@ -19,9 +19,23 @@ class TestsController extends AppController
             
             $this->render();
             
-
-        } 
-
+       } 
+       function TestReporteVentaCiudad()
+       {
+           $this->layout= 'pdf';
+           $parametrosReporteVentaCiudad =array(
+            'ciudad_uno'=>'La Paz',
+            'cantidad_ventas'=>200,
+            'total_ventas'=>40000,
+            'total_deudas'=>3500,
+            'ciudad_dos'=>'Cochabamba',
+            'cantidad_ventasdos'=>150,
+            'total_ventasdos'=>20000,
+            'total_deudasdos'=>1500,   
+           );
+           $this->set('parametrosReporteVentaCiudad',$parametrosReporteVentaCiudad);
+           
+       }
         function TestReporteDeuda(){
             $this->layout = 'pdf';
             $parametrosReporteDeuda=array(                    
