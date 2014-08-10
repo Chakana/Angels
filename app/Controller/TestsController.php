@@ -4,7 +4,7 @@ class TestsController extends AppController
     { 
         public $helpers = array('reportes');
         
-        function indexPdf() 
+        function TestReporteNotaVenta() 
         { 
             $this->layout = 'pdf';
             $parametrosReporteVenta=array(
@@ -15,12 +15,48 @@ class TestsController extends AppController
                 'telefono_cliente' => '34333434'
                  );      
             $this->set('parametrosReporteVenta',$parametrosReporteVenta);      
-             
-            
-            $this->render();
-            
 
-        } 
+            $this->render();            
+       } 
+       function TestReporteVentaCiudad()
+       {
+           $this->layout= 'pdf';
+           $parametrosReporteVentaCiudad =array(           
+            array(
+                'ciudad'=>'La Paz',
+                'cantidad_ventas'=>200,
+                'total_ventas'=>40000,
+                'total_deudas'=>3500
+                ),
+            array(
+                'ciudad'=>'Cochabamba',
+                'cantidad_ventas'=>300,
+                'total_ventas'=>5600,
+                'total_deudas'=>350
+                )
+
+        );
+           $this->set('parametrosReporteVentaCiudad',$parametrosReporteVentaCiudad);           
+       }
+        function TestReporteDeuda(){
+            $this->layout = 'pdf';
+            $parametrosReporteDeuda=array(
+                array(
+                'nombrecliente'=>'Jose Carrasco',
+                'direccion'=>'Otero de la Vega 343',
+                'ciudad'=>'La Paz',
+                'total_deuda'=>400.45           
+                    ),
+                array(
+                'nombrecliente'=>'Luisa Molina',
+                'direccion'=>'antonimo 343',
+                'ciudad'=>'Cochabamba',
+                'total_deuda'=>200.90
+                    )
+                );                  
+            $this->set('parametrosReporteDeuda',$parametrosReporteDeuda);            
+            $this->render();
+        }
 
 
     } 
