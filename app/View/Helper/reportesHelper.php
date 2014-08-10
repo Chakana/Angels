@@ -6,6 +6,8 @@ App::import('Vendor', 'Fpdf', array('file' => 'fpdf/fpdf.php'));
 class reportesHelper extends AppHelper {
 
 	var $title; 
+        
+        
 	function setup ($orientation='P',$unit='mm',$format='A4') { 
 	    $this->FPDF($orientation, $unit, $format);  
 	} 
@@ -43,16 +45,20 @@ class reportesHelper extends AppHelper {
         return $pdf->Output('ReporteVentaCiudad'.$timeStamp.'.pdf','D');
     }
     
-    public function CrearReporteDeudaPDF($parametros) {
-        $pdf=new ReporteDeuda();                
+   
+    
+    public function CrearReporteDeudaPDF($parametros) {   
+        
+        $pdf=new ReporteDeuda();
+        
         $pdf->AliasNbPages();
         //Primera pagina
         $pdf->AddPage();
-            $pdf->SetY(65);               
-        $pdf->Contenido($parametros);            
+        $pdf->SetY(65); 
         //escritura
         $timeStamp = date('Y/m/d');     
-        $header=array('Nombre Cliente','Direccion ','Ciudad','Total Deuda');
+        $header=array('Nombre Cliente','Direccion ','Ciudad','Total Deuda');       
+        $pdf->Contenido($parametros,$header);  
         $pdf->TablaBasica($header,$parametros);
         return $pdf->Output('ReporteDeuda'.$timeStamp.'.pdf','D');
     }
@@ -71,13 +77,17 @@ class ReporteDeuda extends FPDF{
         $this->Cell(95,-55,'DIRECCION:',0,1,'L');
     }
     
+   
+    
     Function Contenido($parametros){
         $timeStamp = date('Y/m/d');
         $this->SetFont('Times','B',14);
         $this->Ln(-10);
+        $this->setX(25);
         $this->Cell(135,25,'Reporte de Deudas por Cliente',0,0,'C');
         $this->Ln(5);
         $this->SetFont('Times','B',10);
+        $this->setX(25);
         $this->Cell(135,25,'Al'.' '.$timeStamp,0,0,'C');
         $this->Ln(35);
         //lineas del marco y separacion
@@ -86,16 +96,20 @@ class ReporteDeuda extends FPDF{
         $this->Line(8,10,200,10);
         $this->Line(8,10,8,280);
         $this->Line(200,10,200,280);
+         
     }
     
+   
     Function TablaBasica($header,$parametros){
       //Cabecera
       $totalizar_deuda=0;
+      $this->setX(25);
       foreach($header as $col){ 
         $this->Cell(40,9,$col,1);
       }  
       $this->Ln();    
-      foreach($parametros as $rowDeuda){           
+      foreach($parametros as $rowDeuda){    
+      $this->setX(25);       
         $this->Cell(40,5,$rowDeuda['nombrecliente'],1);
         $this->Cell(40,5,$rowDeuda['direccion'],1);
         $this->Cell(40,5,$rowDeuda['ciudad'],1);
@@ -103,12 +117,12 @@ class ReporteDeuda extends FPDF{
         $this->Ln();        
         $totalizar_deuda+=(float)$rowDeuda['total_deuda'];
       }
+        $this->setX(25);
         $this->Cell(40,5,'TOTALES',1); 
         $this->Cell(40,5,' ',1);
         $this->Cell(40,5,' ',1);
         $this->Cell(40,5,$totalizar_deuda,1);
      }
-  
 }
 
 class ReporteVenta extends FPDF{
@@ -200,7 +214,7 @@ class ReporteVenta extends FPDF{
         $newline3=$this->Line(8,10,8,280);
         $newline4=$this->Line(200,10,200,280);
 	    //linea separacion
-	      $this->Line(8,115,200,115); 
+	$this->Line(8,115,200,115); 
         $this->Line(8,45,200,45); 
     }
     function Footer() {
@@ -211,34 +225,54 @@ class ReporteVenta extends FPDF{
     }    
   }
   
- class ReporteVentaCiudad extends FPDF{
+ 
+  
+ class ReporteVentaCiudad extends FPDF
+    {
+    //private $PG_W = 190;
     function Header()
     {
     	$this->Image(WWW_ROOT.DS.'img/logo.png',150,8,43);   
         $this->SetFont('Times','B',14);      
-        //  Cabecera         
+        //  Cabecera  
+       
         $this->Cell(95,35,'CALLTIC SRL',0,0,'L');
-        $this->Ln(-10);       
-        $this->Cell(95,75,'NIT:',0,1,'L');        
-        $this->Cell(95,-55,'DIRECCION:',0,1,'L');        
-    }
-    
+        $this->Ln(-10);
+       
+        $this->Cell(95,75,'NIT:',0,1,'L');
+        
+        $this->Cell(95,-55,'DIRECCION:',0,1,'L');
+        
+         //lineas del encabezado
+	   
+        //$this->Line(22, 24,55, 24);
+        
+        //$this->Line(42, 29,90, 29); 	  
+
+        
+    }    
     Function Contenido($parametros)
     {
         $timeStamp = date('Y/m/d');
+
         $this->SetFont('Times','B',14);
         $this->Ln(-10);
-        $this->Cell(135,25,'Reporte de Ventas por Ciudad',0,0,'C');
+        $this->setX(20);
+        $this->Cell(160,25,'Reporte de Ventas por Ciudad',0,0,'C');
         $this->Ln(5);
         $this->SetFont('Times','B',10);
-        $this->Cell(135,25,'Al'.' '.$timeStamp,0,0,'C');
-         $this->Ln(35);
+        $this->setX(20);
+        $this->Cell(160,25,'Al'.' '.$timeStamp,0,0,'C');
+        $this->Ln(35);
+        
          //lineas del marco y separacion
         $this->Line(8,55,200,55);
         $this->Line(8,280,200,280);
         $this->Line(8,10,200,10);
         $this->Line(8,10,8,280);
-        $this->Line(200,10,200,280);        
+        $this->Line(200,10,200,280);
+        
+        //$this->MultiCell(80,10,$parametros['ciudad_uno'],0,1,'L');
     }
     
     Function TablaBasica($header,$parametros){
@@ -246,13 +280,13 @@ class ReporteVenta extends FPDF{
         $total_ventas=0;
         $total_deudas=0;
       //Cabecera
-        $this->setX(35);
+        $this->setX(25);
       foreach($header as $col){
         $this->Cell(40,9,$col,1);
       }
       $this->Ln();  
       foreach ($parametros as $rowVentaCiudad) {
-        $this->setX(35);
+        $this->setX(25);
           $this->Cell(40,5,$rowVentaCiudad['ciudad'],1);
           $this->Cell(40,5,$rowVentaCiudad['cantidad_ventas'],1);
           $this->Cell(40,5,$rowVentaCiudad['total_ventas'],1);
@@ -262,12 +296,15 @@ class ReporteVenta extends FPDF{
           $total_ventas += (float)$rowVentaCiudad['total_ventas'];
           $total_deudas += (float)$rowVentaCiudad['total_deudas'];
       }  
-      $this->setX(35);
+
+      $this->setX(25);
       $this->Cell(40,5,'TOTALES',1); 
       $this->Cell(40,5,$total_cantidad_ventas,1);
       $this->Cell(40,5,$total_ventas,1);
       $this->Cell(40,5,$total_deudas,1);
-   }  
+   }
+   
 }
+
 
 ?>

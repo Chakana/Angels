@@ -1,4 +1,4 @@
-<?php
-$this->Reportes->CrearReporteVentaCiudadPDF($parametrosReporteVentaCiudad);
-
+<?php	
+     //$this->Reportes->CrearReporteDeudaPDF($parametrosReporteDeuda);
+     $this->Reportes->CrearReporteVentaCiudadPDF($parametrosReporteVentaCiudad);
 ?>

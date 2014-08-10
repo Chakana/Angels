@@ -15,12 +15,13 @@ class TestsController extends AppController
                 'telefono_cliente' => '34333434'
                  );      
             $this->set('parametrosReporteVenta',$parametrosReporteVenta);      
+
             $this->render();            
        } 
        function TestReporteVentaCiudad()
        {
            $this->layout= 'pdf';
-           $parametrosReporteVentaCiudad =array(
+           $parametrosReporteVentaCiudad =array(           
             array(
                 'ciudad'=>'La Paz',
                 'cantidad_ventas'=>200,
@@ -34,15 +35,7 @@ class TestsController extends AppController
                 'total_deudas'=>350
                 )
 
-            /*'ciudad_uno'=>'La Paz',
-            'cantidad_ventas'=>200,
-            'total_ventas'=>40000,
-            'total_deudas'=>3500,
-            'ciudad_dos'=>'Cochabamba',
-            'cantidad_ventasdos'=>150,
-            'total_ventasdos'=>20000,
-            'total_deudasdos'=>1500,   */
-           );
+        );
            $this->set('parametrosReporteVentaCiudad',$parametrosReporteVentaCiudad);           
        }
         function TestReporteDeuda(){
