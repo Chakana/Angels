@@ -246,11 +246,13 @@ class ReporteVenta extends FPDF{
         $total_ventas=0;
         $total_deudas=0;
       //Cabecera
+        $this->setX(35);
       foreach($header as $col){
         $this->Cell(40,9,$col,1);
       }
       $this->Ln();  
       foreach ($parametros as $rowVentaCiudad) {
+        $this->setX(35);
           $this->Cell(40,5,$rowVentaCiudad['ciudad'],1);
           $this->Cell(40,5,$rowVentaCiudad['cantidad_ventas'],1);
           $this->Cell(40,5,$rowVentaCiudad['total_ventas'],1);
@@ -260,7 +262,7 @@ class ReporteVenta extends FPDF{
           $total_ventas += (float)$rowVentaCiudad['total_ventas'];
           $total_deudas += (float)$rowVentaCiudad['total_deudas'];
       }  
-     
+      $this->setX(35);
       $this->Cell(40,5,'TOTALES',1); 
       $this->Cell(40,5,$total_cantidad_ventas,1);
       $this->Cell(40,5,$total_ventas,1);
