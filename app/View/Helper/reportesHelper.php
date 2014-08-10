@@ -128,7 +128,7 @@ class ReporteDeuda extends FPDF{
 class ReporteVenta extends FPDF{
 //cabecera de pagina
     function Header(){
-    	$this->Image(WWW_ROOT.DS.'img/logo.png',10,8,33);   
+        $this->Image(WWW_ROOT.DS.'img/logo.png',10,8,33);   
         $this->SetFont('Times','B',14);      
         //  Cabecera  
         $this->Cell(60,15,'CALLTIC SRL',0,0,'L');
@@ -189,7 +189,7 @@ class ReporteVenta extends FPDF{
         $this->Ln(5);
         //lineas del 3er parrafo
         //1er fila
-	      $this->Line(20,136,70,136);     
+          $this->Line(20,136,70,136);     
         $this->Line(80,136,125,136);         
         $this->Line(140,136,180,136);         
         //2da fila
@@ -213,8 +213,8 @@ class ReporteVenta extends FPDF{
         $newline2=$this->Line(8,10,200,10);
         $newline3=$this->Line(8,10,8,280);
         $newline4=$this->Line(200,10,200,280);
-	    //linea separacion
-	$this->Line(8,115,200,115); 
+        //linea separacion
+    $this->Line(8,115,200,115); 
         $this->Line(8,45,200,45); 
     }
     function Footer() {
@@ -232,7 +232,7 @@ class ReporteVenta extends FPDF{
     //private $PG_W = 190;
     function Header()
     {
-    	$this->Image(WWW_ROOT.DS.'img/logo.png',150,8,43);   
+        $this->Image(WWW_ROOT.DS.'img/logo.png',150,8,43);   
         $this->SetFont('Times','B',14);      
         //  Cabecera  
        
@@ -244,10 +244,10 @@ class ReporteVenta extends FPDF{
         $this->Cell(95,-55,'DIRECCION:',0,1,'L');
         
          //lineas del encabezado
-	   
+       
         //$this->Line(22, 24,55, 24);
         
-        //$this->Line(42, 29,90, 29); 	  
+        //$this->Line(42, 29,90, 29);     
 
         
     }    
@@ -305,6 +305,7 @@ class ReporteVenta extends FPDF{
    }
    
 }
+
 
 
 ?>
