@@ -3,7 +3,8 @@ App::uses('AppController', 'Controller');
 class TestsController extends AppController  
     { 
         public $helpers = array('reportes');
-        
+        public $components = array('RequestHandler');
+        public $uses = array('Pago');
         function TestReporteNotaVenta() 
         { 
             $this->layout = 'pdf';
@@ -56,6 +57,37 @@ class TestsController extends AppController
                 );                  
             $this->set('parametrosReporteDeuda',$parametrosReporteDeuda);            
             $this->render();
+        }
+
+        function TestJSON(){ 
+             /*$parametrosReporteDeuda=array(
+                array(
+                'nombrecliente'=>'Jose Carrasco',
+                'direccion'=>'Otero de la Vega 343',
+                'ciudad'=>'La Paz',
+                'total_deuda'=>400.45           
+                    ),
+                array(
+                'nombrecliente'=>'Luisa Molina',
+                'direccion'=>'antonimo 343',
+                'ciudad'=>'Cochabamba',
+                'total_deuda'=>200.90
+                    )
+                );         
+            $this->set('parametrosReporteDeuda',$parametrosReporteDeuda);         
+            $this->set('_serialize', array('parametrosReporteDeuda'));*/
+            $pagos = $this->Pago->find('all');
+            $results = (Set::extract('/Pago/.', $pagos));
+
+            $this->set('pagos',$pagos);
+            //$this->set('parametrosReporteDeuda',$results);
+        }
+
+        function AjaxCall(){
+            $this->autoRender=false; 
+            if($this->RequestHandler->isAjax()){ 
+                var_dump('called yey!');
+            }
         }
 
 
