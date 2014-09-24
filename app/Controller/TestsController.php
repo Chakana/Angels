@@ -84,9 +84,11 @@ class TestsController extends AppController
         }
 
         function AjaxCall(){
+
             $this->autoRender=false; 
-            if($this->RequestHandler->isAjax()){ 
-                var_dump('called yey!');
+            if($this->RequestHandler->isAjax()){       
+                $data=$this->request->input('json_decode', 'true');          
+                return json_encode($data);
             }
         }
 
