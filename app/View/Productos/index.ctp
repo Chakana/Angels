@@ -8,8 +8,6 @@
 		</div><!-- end col md 12 -->
 	</div><!-- end row -->
 
-
-
 	<div class="row">
 
 		<div class="col-md-3">
@@ -19,12 +17,8 @@
 						<div class="panel-body">
 							<ul class="nav nav-pills nav-stacked">
 								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Producto'), array('action' => 'add'), array('escape' => false)); ?></li>
-								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Inventarioproductos'), array('controller' => 'inventarioproductos', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Inventarioproducto'), array('controller' => 'inventarioproductos', 'action' => 'add'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Movimientoproductos'), array('controller' => 'movimientoproductos', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Movimientoproducto'), array('controller' => 'movimientoproductos', 'action' => 'add'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Ventadetalles'), array('controller' => 'ventadetalles', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Ventadetalle'), array('controller' => 'ventadetalles', 'action' => 'add'), array('escape' => false)); ?> </li>
+								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Inventario'), array('controller' => 'inventarioproductos', 'action' => 'index'), array('escape' => false)); ?> </li>					
+								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Movimientos'), array('controller' => 'movimientoproductos', 'action' => 'index'), array('escape' => false)); ?> </li>
 							</ul>
 						</div><!-- end body -->
 				</div><!-- end panel -->
@@ -36,23 +30,26 @@
 				<thead>
 					<tr>
 						<th><?php echo $this->Paginator->sort('id'); ?></th>
-						<th><?php echo $this->Paginator->sort('nombreProducto'); ?></th>
-						<th><?php echo $this->Paginator->sort('descripcionProducto'); ?></th>
+						<th><?php echo $this->Paginator->sort('Nombre del Producto'); ?></th>
+						<th><?php echo $this->Paginator->sort('Descripcion'); ?></th>
 						<th><?php echo $this->Paginator->sort('categoria'); ?></th>
+						<th><?php echo $this->Paginator->sort('Existencia'); ?></th>
 						<th class="actions"></th>
 					</tr>
 				</thead>
 				<tbody>
 				<?php foreach ($productos as $producto): ?>
+
 					<tr>
 						<td><?php echo h($producto['Producto']['id']); ?>&nbsp;</td>
 						<td><?php echo h($producto['Producto']['nombreProducto']); ?>&nbsp;</td>
 						<td><?php echo h($producto['Producto']['descripcionProducto']); ?>&nbsp;</td>
 						<td><?php echo h($producto['Producto']['categoria']); ?>&nbsp;</td>
+						<td><?php echo h($producto['Inventarioproducto'][0]['existencia']); ?>&nbsp;</td>
 						<td class="actions">
 							<?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('action' => 'view', $producto['Producto']['id']), array('escape' => false)); ?>
 							<?php echo $this->Html->link('<span class="glyphicon glyphicon-edit"></span>', array('action' => 'edit', $producto['Producto']['id']), array('escape' => false)); ?>
-							<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-remove"></span>', array('action' => 'delete', $producto['Producto']['id']), array('escape' => false), __('Are you sure you want to delete # %s?', $producto['Producto']['id'])); ?>
+							<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-remove"></span>', array('action' => 'delete', $producto['Producto']['id']), array('escape' => false), __('Esta seguro que quiere borrar el producto # %s?', $producto['Producto']['id'])); ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>

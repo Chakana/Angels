@@ -14,15 +14,16 @@ class ProductosController extends AppController {
  * @var array
  */
 	public $components = array('Paginator');
-
+	public $uses = array('Producto','Inventarioproductos',);
 /**
  * index method
  *
  * @return void
  */
 	public function index() {
-		$this->Producto->recursive = 0;
+		$this->Producto->recursive = 2;
 		$this->set('productos', $this->Paginator->paginate());
+		
 	}
 
 /**
@@ -34,10 +35,12 @@ class ProductosController extends AppController {
  */
 	public function view($id = null) {
 		if (!$this->Producto->exists($id)) {
-			throw new NotFoundException(__('Invalid producto'));
+			throw new NotFoundException(__('Producto Invalido'));
 		}
 		$options = array('conditions' => array('Producto.' . $this->Producto->primaryKey => $id));
 		$this->set('producto', $this->Producto->find('first', $options));
+		$inventarioProducto = $this->Inventarioproductos->find('all', array('conditions' => array('Inventarioproductos.producto_id' => $id)));		
+		$this->set('existencia',$inventarioProducto[0]['Inventarioproductos']['existencia']);
 	}
 
 /**
@@ -49,10 +52,10 @@ class ProductosController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Producto->create();
 			if ($this->Producto->save($this->request->data)) {
-				$this->Session->setFlash(__('The producto has been saved.'), 'default', array('class' => 'alert alert-success'));
+				$this->Session->setFlash(__('Se ha grabado con exito'), 'default', array('class' => 'alert alert-success'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The producto could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
+				$this->Session->setFlash(__('No se pudo grabar, por favor intente de nuevo.'), 'default', array('class' => 'alert alert-danger'));
 			}
 		}
 	}
@@ -66,14 +69,14 @@ class ProductosController extends AppController {
  */
 	public function edit($id = null) {
 		if (!$this->Producto->exists($id)) {
-			throw new NotFoundException(__('Invalid producto'));
+			throw new NotFoundException(__('Producto Invalido'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Producto->save($this->request->data)) {
-				$this->Session->setFlash(__('The producto has been saved.'), 'default', array('class' => 'alert alert-success'));
+				$this->Session->setFlash(__('Se ha grabado con exito.'), 'default', array('class' => 'alert alert-success'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The producto could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
+				$this->Session->setFlash(__('No se pudo grabar, por favor intente de nuevo.'), 'default', array('class' => 'alert alert-danger'));
 			}
 		} else {
 			$options = array('conditions' => array('Producto.' . $this->Producto->primaryKey => $id));
@@ -95,9 +98,9 @@ class ProductosController extends AppController {
 		}
 		$this->request->onlyAllow('post', 'delete');
 		if ($this->Producto->delete()) {
-			$this->Session->setFlash(__('The producto has been deleted.'), 'default', array('class' => 'alert alert-success'));
+			$this->Session->setFlash(__('El producto ha sido borrado.'), 'default', array('class' => 'alert alert-success'));
 		} else {
-			$this->Session->setFlash(__('The producto could not be deleted. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
+			$this->Session->setFlash(__('El producto no pudo borrarse, intente de nuevo.'), 'default', array('class' => 'alert alert-danger'));
 		}
 		return $this->redirect(array('action' => 'index'));
 	}

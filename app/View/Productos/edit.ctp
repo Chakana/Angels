@@ -18,14 +18,10 @@
 						<div class="panel-body">
 							<ul class="nav nav-pills nav-stacked">
 
-																<li><?php echo $this->Form->postLink(__('<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Delete'), array('action' => 'delete', $this->Form->value('Producto.id')), array('escape' => false), __('Are you sure you want to delete # %s?', $this->Form->value('Producto.id'))); ?></li>
+																<li><?php echo $this->Form->postLink(__('<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Borrar Producto'), array('action' => 'delete', $this->Form->value('Producto.id')), array('escape' => false), __('Are you sure you want to delete # %s?', $this->Form->value('Producto.id'))); ?></li>
 																<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Productos'), array('action' => 'index'), array('escape' => false)); ?></li>
-									<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Inventarioproductos'), array('controller' => 'inventarioproductos', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Inventarioproducto'), array('controller' => 'inventarioproductos', 'action' => 'add'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Movimientoproductos'), array('controller' => 'movimientoproductos', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Movimientoproducto'), array('controller' => 'movimientoproductos', 'action' => 'add'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Ventadetalles'), array('controller' => 'ventadetalles', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Ventadetalle'), array('controller' => 'ventadetalles', 'action' => 'add'), array('escape' => false)); ?> </li>
+									<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Inventario de Productos'), array('controller' => 'inventarioproductos', 'action' => 'index'), array('escape' => false)); ?> </li>
+		
 							</ul>
 						</div>
 					</div>
@@ -47,7 +43,7 @@
 					<?php echo $this->Form->input('categoria', array('class' => 'form-control', 'placeholder' => 'Categoria'));?>
 				</div>
 				<div class="form-group">
-					<?php echo $this->Form->submit(__('Submit'), array('class' => 'btn btn-default')); ?>
+					<?php echo $this->Form->submit(__('Grabar'), array('class' => 'btn btn-primary')); ?>
 				</div>
 
 			<?php echo $this->Form->end() ?>

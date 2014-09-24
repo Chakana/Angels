@@ -16,15 +16,8 @@
 						<div class="panel-body">
 							<ul class="nav nav-pills nav-stacked">
 									<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-edit"></span>&nbsp&nbsp;Modificar Producto'), array('action' => 'edit', $producto['Producto']['id']), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Form->postLink(__('<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Eliminar Producto'), array('action' => 'delete', $producto['Producto']['id']), array('escape' => false), __('Are you sure you want to delete # %s?', $producto['Producto']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp&nbsp;Ver Productos'), array('action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp&nbsp;Nuevo Producto'), array('action' => 'add'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp&nbsp;Ver Inventarioproductos'), array('controller' => 'inventarioproductos', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp&nbsp;Nuevo Inventarioproducto'), array('controller' => 'inventarioproductos', 'action' => 'add'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp&nbsp;Ver Movimientoproductos'), array('controller' => 'movimientoproductos', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp&nbsp;Nuevo Movimientoproducto'), array('controller' => 'movimientoproductos', 'action' => 'add'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp&nbsp;Ver Ventadetalles'), array('controller' => 'ventadetalles', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp&nbsp;Nuevo Ventadetalle'), array('controller' => 'ventadetalles', 'action' => 'add'), array('escape' => false)); ?> </li>
+									<li><?php echo $this->Form->postLink(__('<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Eliminar Producto'), array('action' => 'delete', $producto['Producto']['id']), array('escape' => false), __('Are you sure you want to delete # %s?', $producto['Producto']['id'])); ?> </li>
+									<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp&nbsp;Ver Productos'), array('action' => 'index'), array('escape' => false)); ?> </li>
 							</ul>
 						</div><!-- end body -->
 				</div><!-- end panel -->
@@ -62,6 +55,13 @@
 			&nbsp;
 		</td>
 </tr>
+<tr>
+		<th><?php echo __('Existencia'); ?></th>
+		<td>
+			<?php echo h($existencia); ?>
+			&nbsp;
+		</td>
+</tr>
 				</tbody>
 			</table>
 
@@ -70,48 +70,10 @@
 	</div>
 </div>
 
-<div class="related row">
-	<div class="col-md-12">
-	<h3><?php echo __('Related Inventarioproductos'); ?></h3>
-	<?php if (!empty($producto['Inventarioproducto'])): ?>
-	<table cellpadding = "0" cellspacing = "0" class="table table-striped">
-	<thead>
-	<tr>
-		<th><?php echo __('Id'); ?></th>
-		<th><?php echo __('Producto Id'); ?></th>
-		<th><?php echo __('FechaIngreso'); ?></th>
-		<th><?php echo __('Existencia'); ?></th>
-		<th><?php echo __('FechaModificacion'); ?></th>
-		<th class="actions"></th>
-	</tr>
-	<thead>
-	<tbody>
-	<?php foreach ($producto['Inventarioproducto'] as $inventarioproducto): ?>
-		<tr>
-			<td><?php echo $inventarioproducto['id']; ?></td>
-			<td><?php echo $inventarioproducto['producto_id']; ?></td>
-			<td><?php echo $inventarioproducto['fechaIngreso']; ?></td>
-			<td><?php echo $inventarioproducto['existencia']; ?></td>
-			<td><?php echo $inventarioproducto['fechaModificacion']; ?></td>
-			<td class="actions">
-				<?php echo $this->Html->link(__('<span class="glyphicon glyphicon-search"></span>'), array('controller' => 'inventarioproductos', 'action' => 'view', $inventarioproducto['id']), array('escape' => false)); ?>
-				<?php echo $this->Html->link(__('<span class="glyphicon glyphicon-edit"></span>'), array('controller' => 'inventarioproductos', 'action' => 'edit', $inventarioproducto['id']), array('escape' => false)); ?>
-				<?php echo $this->Form->postLink(__('<span class="glyphicon glyphicon-remove"></span>'), array('controller' => 'inventarioproductos', 'action' => 'delete', $inventarioproducto['id']), array('escape' => false), __('Esta seguro de eliminar # %s?', $inventarioproducto['id'])); ?>
-			</td>
-		</tr>
-	<?php endforeach; ?>
-	</tbody>
-	</table>
-<?php endif; ?>
 
-	<div class="actions">
-		<?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Inventarioproducto'), array('controller' => 'inventarioproductos', 'action' => 'add'), array('escape' => false, 'class' => 'btn btn-default')); ?> 
-	</div>
-	</div><!-- end col md 12 -->
-</div>
 <div class="related row">
 	<div class="col-md-12">
-	<h3><?php echo __('Related Movimientoproductos'); ?></h3>
+	<h3><?php echo __('Movimientos del Producto'); ?></h3>
 	<?php if (!empty($producto['Movimientoproducto'])): ?>
 	<table cellpadding = "0" cellspacing = "0" class="table table-striped">
 	<thead>
@@ -152,14 +114,14 @@
 </div>
 <div class="related row">
 	<div class="col-md-12">
-	<h3><?php echo __('Related Ventadetalles'); ?></h3>
+	<h3><?php echo __('Detalle de Ventas'); ?></h3>
 	<?php if (!empty($producto['Ventadetalle'])): ?>
 	<table cellpadding = "0" cellspacing = "0" class="table table-striped">
 	<thead>
 	<tr>
 		<th><?php echo __('Id'); ?></th>
 		<th><?php echo __('Venta Id'); ?></th>
-		<th><?php echo __('Producto Id'); ?></th>
+		<th><?php echo __('Producto'); ?></th>
 		<th><?php echo __('Cantidad'); ?></th>
 		<th><?php echo __('PrecioUnitario'); ?></th>
 		<th><?php echo __('PrecioTotal'); ?></th>
@@ -187,7 +149,7 @@
 <?php endif; ?>
 
 	<div class="actions">
-		<?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Ventadetalle'), array('controller' => 'ventadetalles', 'action' => 'add'), array('escape' => false, 'class' => 'btn btn-default')); ?> 
+		<?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nueva Venta'), array('controller' => 'ventadetalles', 'action' => 'add'), array('escape' => false, 'class' => 'btn btn-default')); ?> 
 	</div>
 	</div><!-- end col md 12 -->
 </div>
