@@ -1,3 +1,9 @@
+
+<style>
+#venta tr:hover {
+    cursor: pointer;
+}
+</style>
 <div class="ventas index">
 
 	<div class="row">
@@ -7,7 +13,9 @@
 			</div>
 		</div><!-- end col md 12 -->
 	</div><!-- end row -->
+	<?php //var_dump($ventas[0]); 
 
+	?>
 
 
 	<div class="row">
@@ -18,15 +26,10 @@
 					<div class="panel-heading">Actions</div>
 						<div class="panel-body">
 							<ul class="nav nav-pills nav-stacked">
-								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Venta'), array('action' => 'add'), array('escape' => false)); ?></li>
+								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nueva Venta'), array('action' => 'add'), array('escape' => false)); ?></li>
 								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Vendedores'), array('controller' => 'vendedores', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Vendedore'), array('controller' => 'vendedores', 'action' => 'add'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Clientes'), array('controller' => 'clientes', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Cliente'), array('controller' => 'clientes', 'action' => 'add'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Pagos'), array('controller' => 'pagos', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Pago'), array('controller' => 'pagos', 'action' => 'add'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver ventadetalles'), array('controller' => 'ventadetalles', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Ventadetalle'), array('controller' => 'ventadetalles', 'action' => 'add'), array('escape' => false)); ?> </li>
+								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Vendedor'), array('controller' => 'vendedores', 'action' => 'add'), array('escape' => false)); ?> </li>
+								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Clientes'), array('controller' => 'clientes', 'action' => 'index'), array('escape' => false)); ?> </li>								
 							</ul>
 						</div><!-- end body -->
 				</div><!-- end panel -->
@@ -34,14 +37,15 @@
 		</div><!-- end col md 3 -->
 
 		<div class="col-md-9">
-			<table cellpadding="0" cellspacing="0" class="table table-striped">
+			<table cellpadding="0" cellspacing="0" class="table table-hover" id="venta">
 				<thead>
 					<tr>
-						<th><?php echo $this->Paginator->sort('id'); ?></th>
-						<th><?php echo $this->Paginator->sort('fechaVenta'); ?></th>
-						<th><?php echo $this->Paginator->sort('descripcion'); ?></th>
-						<th><?php echo $this->Paginator->sort('vendedore_id'); ?></th>
-						<th><?php echo $this->Paginator->sort('cliente_id'); ?></th>
+						<th><?php echo $this->Paginator->sort('Id'); ?></th>
+						<th><?php echo $this->Paginator->sort('Fecha de Venta'); ?></th>
+						<th><?php echo $this->Paginator->sort('Descripcion'); ?></th>
+						<th><?php echo $this->Paginator->sort('Vendedor'); ?></th>
+						<th><?php echo $this->Paginator->sort('Cliente'); ?></th>
+						<th><?php echo $this->Paginator->sort('Total Venta'); ?></th>
 						<th class="actions"></th>
 					</tr>
 				</thead>
@@ -52,15 +56,20 @@
 						<td><?php echo h($venta['Venta']['fechaVenta']); ?>&nbsp;</td>
 						<td><?php echo h($venta['Venta']['descripcion']); ?>&nbsp;</td>
 								<td>
-			<?php echo $this->Html->link($venta['Vendedore']['id'], array('controller' => 'vendedores', 'action' => 'view', $venta['Vendedore']['id'])); ?>
+			<?php echo $this->Html->link($venta['Vendedore']['nombreVendedor'], array('controller' => 'vendedores', 'action' => 'view', $venta['Vendedore']['id'])); ?>
 		</td>
 								<td>
-			<?php echo $this->Html->link($venta['Cliente']['id'], array('controller' => 'clientes', 'action' => 'view', $venta['Cliente']['id'])); ?>
+			<?php echo $this->Html->link($venta['Cliente']['nombreCliente'], array('controller' => 'clientes', 'action' => 'view', $venta['Cliente']['id'])); ?>
 		</td>
+		<td><?php $sumaVentaDetalles=0; 
+			foreach ($venta['Ventadetalle'] as $ventadetalle ) {
+				$sumaVentaDetalles +=$ventadetalle['precioTotal'];
+			}
+			echo h($sumaVentaDetalles) ?>&nbsp;</td>
 						<td class="actions">
 							<?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('action' => 'view', $venta['Venta']['id']), array('escape' => false)); ?>
 							<?php echo $this->Html->link('<span class="glyphicon glyphicon-edit"></span>', array('action' => 'edit', $venta['Venta']['id']), array('escape' => false)); ?>
-							<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-remove"></span>', array('action' => 'delete', $venta['Venta']['id']), array('escape' => false), __('Are you sure you want to delete # %s?', $venta['Venta']['id'])); ?>
+							<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-remove"></span>', array('action' => 'delete', $venta['Venta']['id']), array('escape' => false), __('Esta seguro de borrar la venta # %s?', $venta['Venta']['id'])); ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>
@@ -85,7 +94,57 @@
 			<?php } ?>
 
 		</div> <!-- end col md 9 -->
+		<div class="col-md-9">
+			<div id='contenidoVentaDetalle'>			
+			</div>
+		</div>
 	</div><!-- end row -->
+	<div class='row'>
+		
+	</div>
 
 
 </div><!-- end containing of content -->
+
+<script>
+$(document).ready(function(){
+    /*$('.table').delegate('tr.rows', 'click', function(){
+        $('#contenidoVentaDetalle').load('/Angels/ventadetalles/detalleventaAjax',{ id: 1 });
+    });
+     $("#content").on("keydown",  hoverDown);*/
+     $('.table tr').click(function (event) {
+     	
+		var cellValue=($('.table tr').eq($(this).index()+1).find('td').eq(0).text());
+		$('#contenidoVentaDetalle').load('/Angels/ventadetalles/detalleventaAjax/'+cellValue,{ id: cellValue });
+     });
+
+});
+
+
+
+function hoverDown(e) {
+    var curr_tr = $(".table").find("tr.selected").first();
+    
+    if (e.keyCode == 40) { //down
+        if (curr_tr.length == 0) {
+            curr_tr = $(".table").find("tr").first();
+        } else {
+            curr_tr.removeClass("selected");
+            curr_tr = curr_tr.next("tr");
+        }
+        curr_tr.addClass("selected");
+    } else if (e.keyCode == 38) { //up
+        if (curr_tr.length == 0) {
+            curr_tr = $(".table").find("tr").last();
+        } else {
+            curr_tr.removeClass("selected");
+            curr_tr = curr_tr.prev("tr");
+        }
+        curr_tr.addClass("selected");       
+    } else if (e.keyCode == 13) { //enter
+        if (curr_tr.length == 1) {
+            window.location = curr_tr.find("a").attr("href");
+        }
+    }
+}
+</script>

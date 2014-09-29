@@ -37,12 +37,7 @@
 				<div class="form-group">
 					<?php echo $this->Form->input('fechaNacimiento', array('class' => 'form-control', 'placeholder' => 'FechaNacimiento'));?>
 				</div>
-				<div class="form-group">
-					<?php echo $this->Form->input('fechaRegistro', array('class' => 'form-control', 'placeholder' => 'FechaRegistro'));?>
-				</div>
-				<div class="form-group">
-					<?php echo $this->Form->input('fechaModificacion', array('class' => 'form-control', 'placeholder' => 'FechaModificacion'));?>
-				</div>
+				
 				<div class="form-group">
 					<?php echo $this->Form->input('DomicilioVendedor', array('class' => 'form-control', 'placeholder' => 'DomicilioVendedor'));?>
 				</div>
@@ -53,10 +48,10 @@
 					<?php echo $this->Form->input('documentoIdentidad', array('class' => 'form-control', 'placeholder' => 'DocumentoIdentidad'));?>
 				</div>
 				<div class="form-group">
-					<?php echo $this->Form->input('user_id', array('class' => 'form-control', 'placeholder' => 'User Id'));?>
+					<?php echo $this->Form->input('user_id', array('class' => 'form-control', 'placeholder' => 'User Id','type'=>'hidden'));?>
 				</div>
 				<div class="form-group">
-					<?php echo $this->Form->submit(__('Submit'), array('class' => 'btn btn-default')); ?>
+					<?php echo $this->Form->submit(__('Enviar'), array('class' => 'btn btn-primary')); ?>
 				</div>
 
 			<?php echo $this->Form->end() ?>

@@ -9,6 +9,7 @@ App::uses('AppModel', 'Model');
  */
 class Producto extends AppModel {
 
+public $displayField = 'nombreProducto';
 /**
  * Validation rules
  *

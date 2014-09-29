@@ -14,7 +14,7 @@ class PagosController extends AppController {
  * @var array
  */
 	public $components = array('Paginator');
-
+	public $uses = array('Pago','Ventadetalle','Venta');
 /**
  * index method
  *
@@ -45,18 +45,60 @@ class PagosController extends AppController {
  *
  * @return void
  */
-	public function add() {
-		if ($this->request->is('post')) {
-			$this->Pago->create();
-			if ($this->Pago->save($this->request->data)) {
-				$this->Session->setFlash(__('The pago has been saved.'), 'default', array('class' => 'alert alert-success'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The pago could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
-			}
-		}
-		$ventas = $this->Pago->Venta->find('list');
-		$this->set(compact('ventas'));
+	public function add($idVenta) {
+		$this->layout = null;
+		$venta = $this->Venta->find('all', array('conditions' => array('Venta.id' =>  $idVenta)));
+		$venta = $venta[0];
+		$estadoPagado='OK';
+
+		if($venta['Venta']['estado']=='PAGADO'){
+			$estadoPagado='PAGADO';			
+		}else{
+			if ($this->request->is('post')) {
+				$this->Pago->create();
+				$montoPago = $this->data['Pago']['montoPago'];
+				$ventadetalles=$this->Ventadetalle->find('all', array('conditions' => array('Ventadetalle.venta_id' =>  $idVenta)));
+				$sumaVentaTotal=0;
+				foreach ($ventadetalles as $detalleVenta ) {
+					$sumaVentaTotal += $detalleVenta['Ventadetalle']['precioTotal'];
+				}				
+				$pagos=$this->Pago->find('all', array('conditions' => array('Pago.venta_id' =>  $idVenta)));
+				
+				$sumaPagos=0;
+				foreach ($pagos as $pago ) {					
+					$sumaPagos += $pago['Pago']['montoPago'];
+				}
+				$saldoVenta=0;
+				if($montoPago>($sumaVentaTotal-$sumaPagos)){
+					$estadoPagado='MONTO_ERROR';	
+				}else{
+					$pagosParciales=$montoPago + $sumaPagos;
+					$saldoVenta = $sumaVentaTotal-$pagosParciales;				
+					if($saldoVenta==0){
+						$this->Venta->read(null, $idVenta);
+						$this->Venta->set('estado', 'PAGADO');
+						$this->Venta->save();
+					}
+					
+					$nuevoPago = array(
+						'venta_id' => $idVenta , 
+						'fechaPago' => date("Y-m-d H:i:s"),
+						'tipoPago' => $this->data['Pago']['tipoPago'],
+						'montoPago' => $this->data['Pago']['montoPago'],
+						'notas' => $this->data['Pago']['notas'],
+						'saldoVenta' => $saldoVenta);
+					
+					if ($this->Pago->save($nuevoPago)) {
+						$estadoPagado='PAGOHECHO';	
+					} else {
+						$estadoPagado='ERROR';	
+					}
+				}
+				
+			}		
+		}	
+		$this->set(compact('estadoPagado'));
+		
 	}
 
 /**

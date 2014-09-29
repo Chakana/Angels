@@ -48,11 +48,22 @@ class VendedoresController extends AppController {
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->Vendedore->create();
-			if ($this->Vendedore->save($this->request->data)) {
-				$this->Session->setFlash(__('The vendedore has been saved.'), 'default', array('class' => 'alert alert-success'));
+			$vendedor = array(
+				'nombreVendedor'=>$this->data['Vendedore']['nombreVendedor'],
+				'fechaNacimiento'=>$this->data['Vendedore']['fechaNacimiento'],
+				'fechaRegistro'=>date("Y-m-d H:i:s"),
+				'fechaModificacion'=>date("Y-m-d H:i:s"),
+				'DomicilioVendedor'=>$this->data['Vendedore']['DomicilioVendedor'],
+				'telefonoVendedor'=>$this->data['Vendedore']['telefonoVendedor'],
+				'documentoIdentidad'=>$this->data['Vendedore']['documentoIdentidad'],
+				'user_id'=>"1"
+				);
+			var_dump($vendedor);
+			if ($this->Vendedore->save($vendedor)) {
+				$this->Session->setFlash(__('Vendedor grabado exitosamente.'), 'default', array('class' => 'alert alert-success'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The vendedore could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
+				$this->Session->setFlash(__('no se pudo grabar el vendedor, porfavor intente de nuevo.'), 'default', array('class' => 'alert alert-danger'));
 			}
 		}
 		$users = $this->Vendedore->User->find('list');
@@ -72,10 +83,10 @@ class VendedoresController extends AppController {
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Vendedore->save($this->request->data)) {
-				$this->Session->setFlash(__('The vendedore has been saved.'), 'default', array('class' => 'alert alert-success'));
+				$this->Session->setFlash(__('vendedor actualizado.'), 'default', array('class' => 'alert alert-success'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The vendedore could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
+				$this->Session->setFlash(__('El vendedor ha sido actualizado con exito'), 'default', array('class' => 'alert alert-danger'));
 			}
 		} else {
 			$options = array('conditions' => array('Vendedore.' . $this->Vendedore->primaryKey => $id));

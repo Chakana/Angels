@@ -17,8 +17,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">Opciones</div>
 						<div class="panel-body">
-							<ul class="nav nav-pills nav-stacked">
-								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Pago'), array('action' => 'add'), array('escape' => false)); ?></li>
+							<ul class="nav nav-pills nav-stacked">								
 								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Ventas'), array('controller' => 'ventas', 'action' => 'index'), array('escape' => false)); ?> </li>
 		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Venta'), array('controller' => 'ventas', 'action' => 'add'), array('escape' => false)); ?> </li>
 							</ul>

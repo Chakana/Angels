@@ -1,57 +1,74 @@
 <div class="pagos form">
 
+
 	<div class="row">
+		
 		<div class="col-md-12">
-			<div class="page-header">
-				<h1><?php echo __('Nuevo Pago'); ?></h1>
-			</div>
-		</div>
-	</div>
-
-
-
-	<div class="row">
-		<div class="col-md-3">
-			<div class="actions">
-				<div class="panel panel-default">
-					<div class="panel-heading">Opciones</div>
-						<div class="panel-body">
-							<ul class="nav nav-pills nav-stacked">
-
-																<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Pagos'), array('action' => 'index'), array('escape' => false)); ?></li>
-									<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Ventas'), array('controller' => 'ventas', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Venta'), array('controller' => 'ventas', 'action' => 'add'), array('escape' => false)); ?> </li>
-							</ul>
-						</div>
-					</div>
-				</div>			
-		</div><!-- end col md 3 -->
-		<div class="col-md-9">
+		<?php if($estadoPagado=='OK'){ ?>
 			<?php echo $this->Form->create('Pago', array('role' => 'form')); ?>
-
+				
 				<div class="form-group">
-					<?php echo $this->Form->input('venta_id', array('class' => 'form-control', 'placeholder' => 'Venta Id'));?>
+					<?php echo $this->Form->input('fechaPago', array('class' => 'form-control', 'placeholder' => 'FechaPago','type'=>'hidden'));?>
 				</div>
 				<div class="form-group">
-					<?php echo $this->Form->input('fechaPago', array('class' => 'form-control', 'placeholder' => 'FechaPago'));?>
-				</div>
-				<div class="form-group">
-					<?php echo $this->Form->input('tipoPago', array('class' => 'form-control', 'placeholder' => 'TipoPago'));?>
+					<?php echo $this->Form->input('tipoPago', array('class' => 'form-control', 'placeholder' => 'TipoPago','default' => 'EFECTIVO','type'=>'hidden'));?>
 				</div>
 				<div class="form-group">
 					<?php echo $this->Form->input('montoPago', array('class' => 'form-control', 'placeholder' => 'MontoPago'));?>
 				</div>
 				<div class="form-group">
 					<?php echo $this->Form->input('notas', array('class' => 'form-control', 'placeholder' => 'Notas'));?>
-				</div>
-				<div class="form-group">
-					<?php echo $this->Form->input('saldoVenta', array('class' => 'form-control', 'placeholder' => 'SaldoVenta'));?>
-				</div>
+				</div>				
 				<div class="form-group">
 					<?php echo $this->Form->submit(__('Submit'), array('class' => 'btn btn-default')); ?>
 				</div>
 
 			<?php echo $this->Form->end() ?>
+		<?php }elseif ($estadoPagado=='PAGADO') { ?>
+				<div class="alert alert-danger" role="alert">Esta venta ya esta cancelada,no puede efectuar mas pagos.</div>
+		<?php }elseif ($estadoPagado=='MONTO_ERROR') {?>
+				<div class="alert alert-danger" role="alert">Existe un error en el monto, no puede ser mayor al total de la venta.</div>
+				<?php echo $this->Form->create('Pago', array('role' => 'form')); ?>
+				
+				<div class="form-group">
+					<?php echo $this->Form->input('fechaPago', array('class' => 'form-control', 'placeholder' => 'FechaPago','type'=>'hidden'));?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->Form->input('tipoPago', array('class' => 'form-control', 'placeholder' => 'TipoPago','default' => 'EFECTIVO','type'=>'hidden'));?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->Form->input('montoPago', array('class' => 'form-control', 'placeholder' => 'MontoPago'));?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->Form->input('notas', array('class' => 'form-control', 'placeholder' => 'Notas'));?>
+				</div>				
+				<div class="form-group">
+					<?php echo $this->Form->submit(__('Submit'), array('class' => 'btn btn-default')); ?>
+				</div>
+
+			<?php echo $this->Form->end() ?>
+		<?php }elseif ($estadoPagado=='PAGOHECHO') {?>
+				<div class="alert alert-success" role="alert">Pago registrado correctamente.</div>
+		<?php }elseif ($estadoPagado=='ERROR') {?>
+				<div class="alert alert-danger" role="alert">Existe un error al registrar el pago, favor reintente nuevamente.</div>
+				<?php echo $this->Form->create('Pago', array('role' => 'form')); ?>
+				
+				<div class="form-group">
+					<?php echo $this->Form->input('fechaPago', array('class' => 'form-control', 'placeholder' => 'FechaPago','type'=>'hidden'));?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->Form->input('tipoPago', array('class' => 'form-control', 'placeholder' => 'TipoPago','default' => 'EFECTIVO','type'=>'hidden'));?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->Form->input('montoPago', array('class' => 'form-control', 'placeholder' => 'MontoPago'));?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->Form->input('notas', array('class' => 'form-control', 'placeholder' => 'Notas'));?>
+				</div>				
+				<div class="form-group">
+					<?php echo $this->Form->submit(__('Submit'), array('class' => 'btn btn-default')); ?>
+				</div>
+		<?php }?>
 
 		</div><!-- end col md 12 -->
 	</div><!-- end row -->

@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>      
-      <?php echo $this->Html->link('ANGEL SCVI', array('controller' => 'ventas'),array('class'=> 'navbar-brand','role' => 'button', 'escape'=>false)); ?>
+      <?php echo $this->Html->link('CALL TIC', array('controller' => 'ventas'),array('class'=> 'navbar-brand','role' => 'button', 'escape'=>false)); ?>
     </div>
     <!-- ANGELS-Sistema de control de ventas e inventarios -->
     <nav class="collapse navbar-collapse">    
@@ -19,7 +19,7 @@
         <button type="submit" class="btn btn-default">Buscar</button>
       </form>
       <ul class="nav navbar-nav">
-        <li class="active"><?php echo $this->Html->link('Inicio', array('controller' => ''),array('class'=> '','role' => 'button', 'escape'=>false)); ?></li>
+        <li class="active"><?php echo $this->Html->link('Inicio', '/pages/home',array('class'=> '','role' => 'button', 'escape'=>false)); ?></li>
         <li>
           <?php echo $this->Html->link('Ventas', array('controller' => 'ventas'),array('class'=> '','role' => 'button', 'escape'=>false)); ?>
         </li>

@@ -14,7 +14,7 @@
 <head>
     <?php echo $this->Html->charset(); ?>
     <title>
-      ANGELS-Sistema de control de ventas e inventarios
+      CALLTIC-Sistema de control de ventas e inventarios
     </title>
     <?php
         echo $this->Html->meta('icon');
@@ -67,7 +67,7 @@
       <?php echo $this->fetch('content'); ?>
     </div>
     <div id="footer" class="container">      
-      Angels - Sistema de control de Inventarios y Ventas 2014
+      CallTic - Sistema de control de Inventarios y Ventas 2014
     </div>
   </div>
   

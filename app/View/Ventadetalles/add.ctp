@@ -1,55 +1,65 @@
 <div class="ventadetalles form">
-
-	<div class="row">
+<br/>
+	<div class="row">		
 		<div class="col-md-12">
-			<div class="page-header">
-				<h1><?php echo __('Nueva Ventadetalle'); ?></h1>
-			</div>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-md-3">
-			<div class="actions">
-				<div class="panel panel-default">
-					<div class="panel-heading">Opciones</div>
-						<div class="panel-body">
-							<ul class="nav nav-pills nav-stacked">
-
-																<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Ventadetalles'), array('action' => 'index'), array('escape' => false)); ?></li>
-									<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Ventas'), array('controller' => 'ventas', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Venta'), array('controller' => 'ventas', 'action' => 'add'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Productos'), array('controller' => 'productos', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Producto'), array('controller' => 'productos', 'action' => 'add'), array('escape' => false)); ?> </li>
-							</ul>
-						</div>
-					</div>
-				</div>			
-		</div><!-- end col md 3 -->
-		<div class="col-md-9">
 			<?php echo $this->Form->create('Ventadetalle', array('role' => 'form')); ?>
+			<table>
+				<TR>
+					<TD>
+						<div class="form-group">
+							<?php echo $this->Form->input('venta_id', array('class' => 'form-control', 'placeholder' => 'Venta Id','default'=>$ventaId,'type'=>'hidden'));?>
+						</div>
+					</TD>
+					<TD>
+						<div class="form-group">
+							<?php echo $this->Form->input('producto_id', array('class' => 'form-control', 'placeholder' => 'Producto Id'));?>
+						</div>				
+					</TD>
+					<TD>
+						<div class="form-group">
+							<?php echo $this->Form->input('cantidad', array('class' => 'form-control', 'placeholder' => 'Cantidad'));?>
+						</div>				
+					</TD>
+					<TD>
+						<div class="form-group">
+							<?php echo $this->Form->input('precioUnitario', array('class' => 'form-control', 'placeholder' => 'PrecioUnitario'));?>
+						</div>
+					</TD>
+					<TD>
+						<div class="form-group">
+							<?php echo $this->Form->input('precioTotal', array('class' => 'form-control', 'placeholder' => 'PrecioTotal'));?>
+						</div>
+					</TD>
+					<TD>		
+						<br/>				
+						<div class="form-group">
+							<?php echo $this->Js->submit('Grabar', array(  //create 'ajax' save button
+						    'update' => '#detallesVenta','class'=>'btn btn-success'  //id of DOM element to update with selector
+						    ));?>
 
-				<div class="form-group">
-					<?php echo $this->Form->input('venta_id', array('class' => 'form-control', 'placeholder' => 'Venta Id'));?>
-				</div>
-				<div class="form-group">
-					<?php echo $this->Form->input('producto_id', array('class' => 'form-control', 'placeholder' => 'Producto Id'));?>
-				</div>
-				<div class="form-group">
-					<?php echo $this->Form->input('cantidad', array('class' => 'form-control', 'placeholder' => 'Cantidad'));?>
-				</div>
-				<div class="form-group">
-					<?php echo $this->Form->input('precioUnitario', array('class' => 'form-control', 'placeholder' => 'PrecioUnitario'));?>
-				</div>
-				<div class="form-group">
-					<?php echo $this->Form->input('precioTotal', array('class' => 'form-control', 'placeholder' => 'PrecioTotal'));?>
-				</div>
-				<div class="form-group">
-					<?php echo $this->Form->submit(__('Submit'), array('class' => 'btn btn-default')); ?>
-				</div>
+						</div>
+					</TD>
+				</TR>
+				
+			</table>
 
-			<?php echo $this->Form->end() ?>
+			<?php echo $this->Form->end();echo $this->Js->writeBuffer(); ?>
 
 		</div><!-- end col md 12 -->
 	</div><!-- end row -->
 </div>
+
+<script>
+$('#VentadetalleCantidad').focusout(function() {
+  var cantidad=$('#VentadetalleCantidad').val();
+  var precioUnitario=$('#VentadetallePrecioUnitario').val();  
+  $('#VentadetallePrecioTotal').val(cantidad*precioUnitario);
+});
+
+$('#VentadetallePrecioUnitario').focusout(function() {
+  var cantidad=$('#VentadetalleCantidad').val();
+  var precioUnitario=$('#VentadetallePrecioUnitario').val();  
+  $('#VentadetallePrecioTotal').val(cantidad*precioUnitario);
+});
+
+</script>
