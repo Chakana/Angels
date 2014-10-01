@@ -36,15 +36,13 @@
 				<thead>
 					<tr>
 						<th><?php echo $this->Paginator->sort('id'); ?></th>
-						<th><?php echo $this->Paginator->sort('nombreCliente'); ?></th>
-						<th><?php echo $this->Paginator->sort('direccionPrincipal'); ?></th>
-						<th><?php echo $this->Paginator->sort('telefonoFijo'); ?></th>
+						<th><?php echo $this->Paginator->sort('nombre Cliente'); ?></th>
+						<th><?php echo $this->Paginator->sort('cedulaIdentidad'); ?></th>
+						<th><?php echo $this->Paginator->sort('direccion Principal'); ?></th>
+						<th><?php echo $this->Paginator->sort('telefono Fijo'); ?></th>
 						<th><?php echo $this->Paginator->sort('celular'); ?></th>
-						<th><?php echo $this->Paginator->sort('fechaRegistro'); ?></th>
-						<th><?php echo $this->Paginator->sort('fechaModificacion'); ?></th>
-						<th><?php echo $this->Paginator->sort('fechaNacimiento'); ?></th>
-						<th><?php echo $this->Paginator->sort('localizacione_id'); ?></th>
-						<th><?php echo $this->Paginator->sort('user_id'); ?></th>
+						<th><?php echo $this->Paginator->sort('fecha Registro'); ?></th>
+						<th><?php echo $this->Paginator->sort('ciudad'); ?></th>						
 						<th class="actions"></th>
 					</tr>
 				</thead>
@@ -53,18 +51,12 @@
 					<tr>
 						<td><?php echo h($cliente['Cliente']['id']); ?>&nbsp;</td>
 						<td><?php echo h($cliente['Cliente']['nombreCliente']); ?>&nbsp;</td>
+						<td><?php echo h($cliente['Cliente']['cedulaIdentidad']); ?>&nbsp;</td>
 						<td><?php echo h($cliente['Cliente']['direccionPrincipal']); ?>&nbsp;</td>
 						<td><?php echo h($cliente['Cliente']['telefonoFijo']); ?>&nbsp;</td>
 						<td><?php echo h($cliente['Cliente']['celular']); ?>&nbsp;</td>
-						<td><?php echo h($cliente['Cliente']['fechaRegistro']); ?>&nbsp;</td>
-						<td><?php echo h($cliente['Cliente']['fechaModificacion']); ?>&nbsp;</td>
-						<td><?php echo h($cliente['Cliente']['fechaNacimiento']); ?>&nbsp;</td>
-								<td>
-			<?php echo $this->Html->link($cliente['Localizacione']['id'], array('controller' => 'localizaciones', 'action' => 'view', $cliente['Localizacione']['id'])); ?>
-		</td>
-								<td>
-			<?php echo $this->Html->link($cliente['User']['id'], array('controller' => 'users', 'action' => 'view', $cliente['User']['id'])); ?>
-		</td>
+						<td><?php echo h($cliente['Cliente']['fechaRegistro']); ?>&nbsp;</td>						
+						<td><?php echo h($cliente['Cliente']['ciudad']); ?>&nbsp;</td>								
 						<td class="actions">
 							<?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('action' => 'view', $cliente['Cliente']['id']), array('escape' => false)); ?>
 							<?php echo $this->Html->link('<span class="glyphicon glyphicon-edit"></span>', array('action' => 'edit', $cliente['Cliente']['id']), array('escape' => false)); ?>

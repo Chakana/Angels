@@ -41,8 +41,8 @@
 				<thead>
 					<tr>
 						<th><?php echo $this->Paginator->sort('Id'); ?></th>
+						<th><?php echo $this->Paginator->sort('Estado'); ?></th>
 						<th><?php echo $this->Paginator->sort('Fecha de Venta'); ?></th>
-						<th><?php echo $this->Paginator->sort('Descripcion'); ?></th>
 						<th><?php echo $this->Paginator->sort('Vendedor'); ?></th>
 						<th><?php echo $this->Paginator->sort('Cliente'); ?></th>
 						<th><?php echo $this->Paginator->sort('Total Venta'); ?></th>
@@ -53,8 +53,8 @@
 				<?php foreach ($ventas as $venta): ?>
 					<tr>
 						<td><?php echo h($venta['Venta']['id']); ?>&nbsp;</td>
-						<td><?php echo h($venta['Venta']['fechaVenta']); ?>&nbsp;</td>
-						<td><?php echo h($venta['Venta']['descripcion']); ?>&nbsp;</td>
+						<td><?php echo h($venta['Venta']['estado']); ?>&nbsp;</td>
+						<td><?php echo h($venta['Venta']['fechaVenta']); ?>&nbsp;</td>						
 								<td>
 			<?php echo $this->Html->link($venta['Vendedore']['nombreVendedor'], array('controller' => 'vendedores', 'action' => 'view', $venta['Vendedore']['id'])); ?>
 		</td>
@@ -121,30 +121,4 @@ $(document).ready(function(){
 });
 
 
-
-function hoverDown(e) {
-    var curr_tr = $(".table").find("tr.selected").first();
-    
-    if (e.keyCode == 40) { //down
-        if (curr_tr.length == 0) {
-            curr_tr = $(".table").find("tr").first();
-        } else {
-            curr_tr.removeClass("selected");
-            curr_tr = curr_tr.next("tr");
-        }
-        curr_tr.addClass("selected");
-    } else if (e.keyCode == 38) { //up
-        if (curr_tr.length == 0) {
-            curr_tr = $(".table").find("tr").last();
-        } else {
-            curr_tr.removeClass("selected");
-            curr_tr = curr_tr.prev("tr");
-        }
-        curr_tr.addClass("selected");       
-    } else if (e.keyCode == 13) { //enter
-        if (curr_tr.length == 1) {
-            window.location = curr_tr.find("a").attr("href");
-        }
-    }
-}
 </script>

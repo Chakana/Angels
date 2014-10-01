@@ -38,10 +38,7 @@
 				<tr>
 					<td><div class="form-group">
 						<?php echo $this->Form->input('fechaVenta', array('class' => 'form-control', 'placeholder' => 'FechaVenta','type'=>'hidden'));?>
-					</div></td>
-					<td><div class="form-group">
-					<?php echo $this->Form->input('descripcion', array('class' => 'form-control', 'placeholder' => 'Descripcion'));?>
-				</div></td>
+					</div></td>				
 					<td><div class="form-group">
 					<?php echo $this->Form->input('vendedore_id', array('class' => 'form-control', 'placeholder' => 'vendedor'));?>
 				</div></td>
@@ -74,36 +71,8 @@
 	</div><!-- end row -->
 	<div class="row">		
 		<!-- Button trigger modal -->
-		<button class="btn btn-primary btn-lg" id="modalButton" data-toggle="modal" data-target="#myModal">
-		  Nuevo Pago
-		</button>
-
+		
 		<!-- Modal -->
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Nuevo Pago</h4>
-		      </div>
-		      <div class="modal-body">
-		       <div class="alert alert-danger" role="alert">Debe elegir una venta valida.</div>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>		        
-		      </div>
-		    </div>
-		  </div>
-		</div>
+		
 	<div>
 </div>
-<script type="text/javascript">
-	 $('#modalButton').click(function (event) {
-	 	var idVenta = $('#VentadetalleVentaId').val();
-	 	if(idVenta!=null){
-	 		$('.modal-body').load('/Angels/pagos/add/'+idVenta);
-	 	}
-		
-	});
-
-</script>

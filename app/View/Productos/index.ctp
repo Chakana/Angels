@@ -34,6 +34,11 @@
 						<th><?php echo $this->Paginator->sort('Descripcion'); ?></th>
 						<th><?php echo $this->Paginator->sort('categoria'); ?></th>
 						<th><?php echo $this->Paginator->sort('Existencia'); ?></th>
+						<th><?php echo $this->Paginator->sort('precioCompra'); ?></th>
+						<th><?php echo $this->Paginator->sort('precio1'); ?></th>
+						<th><?php echo $this->Paginator->sort('precio2'); ?></th>
+						<th><?php echo $this->Paginator->sort('precio3'); ?></th>
+						<th><?php echo $this->Paginator->sort('precio4'); ?></th>
 						<th class="actions"></th>
 					</tr>
 				</thead>
@@ -46,6 +51,11 @@
 						<td><?php echo h($producto['Producto']['descripcionProducto']); ?>&nbsp;</td>
 						<td><?php echo h($producto['Producto']['categoria']); ?>&nbsp;</td>
 						<td><?php echo h($producto['Inventarioproducto'][0]['existencia']); ?>&nbsp;</td>
+						<td><?php echo h($producto['Producto']['precioCompra']); ?>&nbsp;</td>
+						<td><?php echo h($producto['Producto']['precio1']); ?>&nbsp;</td>
+						<td><?php echo h($producto['Producto']['precio2']); ?>&nbsp;</td>
+						<td><?php echo h($producto['Producto']['precio3']); ?>&nbsp;</td>
+						<td><?php echo h($producto['Producto']['precio4']); ?>&nbsp;</td>
 						<td class="actions">
 							<?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('action' => 'view', $producto['Producto']['id']), array('escape' => false)); ?>
 							<?php echo $this->Html->link('<span class="glyphicon glyphicon-edit"></span>', array('action' => 'edit', $producto['Producto']['id']), array('escape' => false)); ?>

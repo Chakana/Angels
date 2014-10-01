@@ -3,7 +3,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="page-header">
-				<h1><?php echo __('Edit Venta'); ?></h1>
+				<h1><?php echo __('Editar Venta'); ?></h1>
 			</div>
 		</div>
 	</div>
@@ -25,9 +25,6 @@
 		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Clientes'), array('controller' => 'clientes', 'action' => 'index'), array('escape' => false)); ?> </li>
 		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Cliente'), array('controller' => 'clientes', 'action' => 'add'), array('escape' => false)); ?> </li>
 		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Pagos'), array('controller' => 'pagos', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Pago'), array('controller' => 'pagos', 'action' => 'add'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Ventadetalles'), array('controller' => 'ventadetalles', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Ventadetalle'), array('controller' => 'ventadetalles', 'action' => 'add'), array('escape' => false)); ?> </li>
 							</ul>
 						</div>
 					</div>
@@ -41,10 +38,7 @@
 				</div>
 				<div class="form-group">
 					<?php echo $this->Form->input('fechaVenta', array('class' => 'form-control', 'placeholder' => 'FechaVenta'));?>
-				</div>
-				<div class="form-group">
-					<?php echo $this->Form->input('descripcion', array('class' => 'form-control', 'placeholder' => 'Descripcion'));?>
-				</div>
+				</div>				
 				<div class="form-group">
 					<?php echo $this->Form->input('vendedore_id', array('class' => 'form-control', 'placeholder' => 'Vendedore Id'));?>
 				</div>
@@ -52,7 +46,7 @@
 					<?php echo $this->Form->input('cliente_id', array('class' => 'form-control', 'placeholder' => 'Cliente Id'));?>
 				</div>
 				<div class="form-group">
-					<?php echo $this->Form->submit(__('Submit'), array('class' => 'btn btn-default')); ?>
+					<?php echo $this->Form->submit(__('Guardar'), array('class' => 'btn btn-success')); ?>
 				</div>
 
 			<?php echo $this->Form->end() ?>

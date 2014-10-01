@@ -62,6 +62,41 @@
 			&nbsp;
 		</td>
 </tr>
+<tr>
+		<th><?php echo __('precioCompra'); ?></th>
+		<td>
+			<?php echo h($producto['Producto']['precioCompra']); ?>
+			&nbsp;
+		</td>
+</tr>
+<tr>
+		<th><?php echo __('precio1'); ?></th>
+		<td>
+			<?php echo h($producto['Producto']['precio1']); ?>
+			&nbsp;
+		</td>
+</tr>
+<tr>
+		<th><?php echo __('precio2'); ?></th>
+		<td>
+			<?php echo h($producto['Producto']['precio2']); ?>
+			&nbsp;
+		</td>
+</tr>
+<tr>
+		<th><?php echo __('precio3'); ?></th>
+		<td>
+			<?php echo h($producto['Producto']['precio3']); ?>
+			&nbsp;
+		</td>
+</tr>
+<tr>
+		<th><?php echo __('precio4'); ?></th>
+		<td>
+			<?php echo h($producto['Producto']['precio4']); ?>
+			&nbsp;
+		</td>
+</tr>
 				</tbody>
 			</table>
 

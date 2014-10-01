@@ -34,16 +34,34 @@
 					<?php echo $this->Form->input('id', array('class' => 'form-control', 'placeholder' => 'Id'));?>
 				</div>
 				<div class="form-group">
-					<?php echo $this->Form->input('nombreProducto', array('class' => 'form-control', 'placeholder' => 'NombreProducto'));?>
+					<?php echo $this->Form->input('nombreProducto', array('class' => 'form-control', 'placeholder' => 'NombreProducto','label'=>'Codigo Producto'));?>
 				</div>
 				<div class="form-group">
-					<?php echo $this->Form->input('descripcionProducto', array('class' => 'form-control', 'placeholder' => 'DescripcionProducto'));?>
+					<?php echo $this->Form->input('descripcionProducto', array('class' => 'form-control', 'placeholder' => 'DescripcionProducto','label'=>'Nombre Producto'));?>
 				</div>
 				<div class="form-group">
 					<?php echo $this->Form->input('categoria', array('class' => 'form-control', 'placeholder' => 'Categoria'));?>
 				</div>
 				<div class="form-group">
-					<?php echo $this->Form->submit(__('Grabar'), array('class' => 'btn btn-primary')); ?>
+					<?php echo $this->Form->input('precioCompra', array('class' => 'form-control', 'placeholder' => 'Precio Compra'));?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->Form->input('precio1', array('class' => 'form-control', 'placeholder' => 'Precio Venta1'));?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->Form->input('precio2', array('class' => 'form-control', 'placeholder' => 'Precio Venta2'));?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->Form->input('precio3', array('class' => 'form-control', 'placeholder' => 'Precio Venta3'));?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->Form->input('precio4', array('class' => 'form-control', 'placeholder' => 'Precio Venta4'));?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->Form->input('existencia', array('class' => 'form-control', 'placeholder' => 'Existencia Inicial','default'=>$existencia));?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->Form->submit(__('Grabar'), array('class' => 'btn btn-success')); ?>
 				</div>
 
 			<?php echo $this->Form->end() ?>

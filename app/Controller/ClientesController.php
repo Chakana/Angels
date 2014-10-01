@@ -82,9 +82,9 @@ class ClientesController extends AppController {
 			$options = array('conditions' => array('Cliente.' . $this->Cliente->primaryKey => $id));
 			$this->request->data = $this->Cliente->find('first', $options);
 		}
-		$localizaciones = $this->Cliente->Localizacione->find('list');
+		
 		$users = $this->Cliente->User->find('list');
-		$this->set(compact('localizaciones', 'users'));
+		$this->set(compact('users'));
 	}
 
 /**

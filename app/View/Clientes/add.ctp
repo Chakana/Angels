@@ -45,17 +45,12 @@
 				<div class="form-group">
 					<?php echo $this->Form->input('celular', array('class' => 'form-control', 'placeholder' => 'Celular'));?>
 				</div>
+				
 				<div class="form-group">
-					<?php echo $this->Form->input('fechaRegistro', array('class' => 'form-control', 'placeholder' => 'FechaRegistro'));?>
+					<?php echo $this->Form->input('cedulaIdentidad', array('class' => 'form-control', 'placeholder' => 'Cedula de Identidad'));?>
 				</div>
 				<div class="form-group">
-					<?php echo $this->Form->input('fechaModificacion', array('class' => 'form-control', 'placeholder' => 'FechaModificacion'));?>
-				</div>
-				<div class="form-group">
-					<?php echo $this->Form->input('fechaNacimiento', array('class' => 'form-control', 'placeholder' => 'FechaNacimiento'));?>
-				</div>
-				<div class="form-group">
-					<?php echo $this->Form->input('localizacione_id', array('class' => 'form-control', 'placeholder' => 'Localizacione Id'));?>
+					<?php echo $this->Form->input('ciudad', array('class' => 'form-control', 'placeholder' => 'Ciudad Id'));?>
 				</div>
 				<div class="form-group">
 					<?php echo $this->Form->input('user_id', array('class' => 'form-control', 'placeholder' => 'User Id'));?>

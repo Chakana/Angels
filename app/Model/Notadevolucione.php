@@ -1,25 +1,23 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Cliente Model
+ * Notadevolucione Model
  *
- * @property Localizacione $Localizacione
- * @property User $User
  * @property Venta $Venta
+ * @property Producto $Producto
+ * @property User $User
  */
-class Cliente extends AppModel {
+class Notadevolucione extends AppModel {
 
-
-public $displayField = 'nombreCliente';
 /**
  * Validation rules
  *
  * @var array
  */
 	public $validate = array(
-		'nombreCliente' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+		'venta_id' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -27,9 +25,9 @@ public $displayField = 'nombreCliente';
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'direccionPrincipal' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+		'producto_id' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -37,7 +35,17 @@ public $displayField = 'nombreCliente';
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'fechaRegistro' => array(
+		'cantidad' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'fecha' => array(
 			'datetime' => array(
 				'rule' => array('datetime'),
 				//'message' => 'Your custom message here',
@@ -47,27 +55,6 @@ public $displayField = 'nombreCliente';
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'fechaModificacion' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'fechaNacimiento' => array(
-			'date' => array(
-				'rule' => array('date'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		
 		'user_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
@@ -87,7 +74,21 @@ public $displayField = 'nombreCliente';
  *
  * @var array
  */
-	public $belongsTo = array(		
+	public $belongsTo = array(
+		'Venta' => array(
+			'className' => 'Venta',
+			'foreignKey' => 'venta_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Producto' => array(
+			'className' => 'Producto',
+			'foreignKey' => 'producto_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'user_id',
@@ -96,26 +97,4 @@ public $displayField = 'nombreCliente';
 			'order' => ''
 		)
 	);
-
-/**
- * hasMany associations
- *
- * @var array
- */
-	public $hasMany = array(
-		'Venta' => array(
-			'className' => 'Venta',
-			'foreignKey' => 'cliente_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
-	);
-
 }

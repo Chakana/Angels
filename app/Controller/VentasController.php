@@ -55,8 +55,7 @@ class VentasController extends AppController {
 			$this->Venta->create();
 			$this->set('saved', false); //false by default - controls closure of overlay in which this is opened
 			$insertData = array(
-				'fechaVenta' => date("Y-m-d H:i:s"),
-		      'descripcion' => $this->data['Venta']['descripcion'],
+				'fechaVenta' => date("Y-m-d H:i:s"),		      
 		      'vendedore_id' => $this->data['Venta']['vendedore_id'],
 		      'cliente_id' => $this->data['Venta']['cliente_id']
 				);

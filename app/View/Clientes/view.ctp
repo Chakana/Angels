@@ -18,11 +18,7 @@
 									<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-edit"></span>&nbsp&nbsp;Editar Cliente'), array('action' => 'edit', $cliente['Cliente']['id']), array('escape' => false)); ?> </li>
 		<li><?php echo $this->Form->postLink(__('<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Eliminar Cliente'), array('action' => 'delete', $cliente['Cliente']['id']), array('escape' => false), __('Are you sure you want to delete # %s?', $cliente['Cliente']['id'])); ?> </li>
 		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp&nbsp;Ver Clientes'), array('action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp&nbsp;Nuevo Cliente'), array('action' => 'add'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp&nbsp;Ver Localizaciones'), array('controller' => 'localizaciones', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp&nbsp;Nueva Localizacion'), array('controller' => 'localizaciones', 'action' => 'add'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp&nbsp;Ver Usuarios'), array('controller' => 'users', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp&nbsp;Nuevo Usuario'), array('controller' => 'users', 'action' => 'add'), array('escape' => false)); ?> </li>
+		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp&nbsp;Nuevo Cliente'), array('action' => 'add'), array('escape' => false)); ?> </li>		
 		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp&nbsp;Ver Ventas'), array('controller' => 'ventas', 'action' => 'index'), array('escape' => false)); ?> </li>
 		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp&nbsp;Nueva Venta'), array('controller' => 'ventas', 'action' => 'add'), array('escape' => false)); ?> </li>
 							</ul>
@@ -42,21 +38,21 @@
 		</td>
 </tr>
 <tr>
-		<th><?php echo __('NombreCliente'); ?></th>
+		<th><?php echo __('Nombre Cliente'); ?></th>
 		<td>
 			<?php echo h($cliente['Cliente']['nombreCliente']); ?>
 			&nbsp;
 		</td>
 </tr>
 <tr>
-		<th><?php echo __('DireccionPrincipal'); ?></th>
+		<th><?php echo __('Direccion Principal'); ?></th>
 		<td>
 			<?php echo h($cliente['Cliente']['direccionPrincipal']); ?>
 			&nbsp;
 		</td>
 </tr>
 <tr>
-		<th><?php echo __('TelefonoFijo'); ?></th>
+		<th><?php echo __('Telefono Fijo'); ?></th>
 		<td>
 			<?php echo h($cliente['Cliente']['telefonoFijo']); ?>
 			&nbsp;
@@ -70,40 +66,28 @@
 		</td>
 </tr>
 <tr>
-		<th><?php echo __('FechaRegistro'); ?></th>
+		<th><?php echo __('Fecha Registro'); ?></th>
 		<td>
 			<?php echo h($cliente['Cliente']['fechaRegistro']); ?>
 			&nbsp;
 		</td>
 </tr>
 <tr>
-		<th><?php echo __('FechaModificacion'); ?></th>
+		<th><?php echo __('Cedula Identidad'); ?></th>
 		<td>
-			<?php echo h($cliente['Cliente']['fechaModificacion']); ?>
+			<?php echo h($cliente['Cliente']['cedulaIdentidad']); ?>
 			&nbsp;
 		</td>
 </tr>
+
 <tr>
-		<th><?php echo __('FechaNacimiento'); ?></th>
+		<th><?php echo __('Ciudad'); ?></th>
 		<td>
-			<?php echo h($cliente['Cliente']['fechaNacimiento']); ?>
+			<?php echo h($cliente['Cliente']['ciudad']); ?>
 			&nbsp;
 		</td>
 </tr>
-<tr>
-		<th><?php echo __('Localizacione'); ?></th>
-		<td>
-			<?php echo $this->Html->link($cliente['Localizacione']['id'], array('controller' => 'localizaciones', 'action' => 'view', $cliente['Localizacione']['id'])); ?>
-			&nbsp;
-		</td>
-</tr>
-<tr>
-		<th><?php echo __('User'); ?></th>
-		<td>
-			<?php echo $this->Html->link($cliente['User']['id'], array('controller' => 'users', 'action' => 'view', $cliente['User']['id'])); ?>
-			&nbsp;
-		</td>
-</tr>
+
 				</tbody>
 			</table>
 
@@ -114,7 +98,7 @@
 
 <div class="related row">
 	<div class="col-md-12">
-	<h3><?php echo __('Related Ventas'); ?></h3>
+	<h3><?php echo __('Ventas Relacionadas'); ?></h3>
 	<?php if (!empty($cliente['Venta'])): ?>
 	<table cellpadding = "0" cellspacing = "0" class="table table-striped">
 	<thead>
@@ -138,7 +122,7 @@
 			<td class="actions">
 				<?php echo $this->Html->link(__('<span class="glyphicon glyphicon-search"></span>'), array('controller' => 'ventas', 'action' => 'view', $venta['id']), array('escape' => false)); ?>
 				<?php echo $this->Html->link(__('<span class="glyphicon glyphicon-edit"></span>'), array('controller' => 'ventas', 'action' => 'edit', $venta['id']), array('escape' => false)); ?>
-				<?php echo $this->Form->postLink(__('<span class="glyphicon glyphicon-remove"></span>'), array('controller' => 'ventas', 'action' => 'delete', $venta['id']), array('escape' => false), __('Are you sure you want to delete # %s?', $venta['id'])); ?>
+				<?php echo $this->Form->postLink(__('<span class="glyphicon glyphicon-remove"></span>'), array('controller' => 'ventas', 'action' => 'delete', $venta['id']), array('escape' => false), __('Esta seguro de borrar la venta # %s?', $venta['id'])); ?>
 			</td>
 		</tr>
 	<?php endforeach; ?>
@@ -147,7 +131,7 @@
 <?php endif; ?>
 
 	<div class="actions">
-		<?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;New Venta'), array('controller' => 'ventas', 'action' => 'add'), array('escape' => false, 'class' => 'btn btn-default')); ?> 
+		<?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nueva Venta'), array('controller' => 'ventas', 'action' => 'add'), array('escape' => false, 'class' => 'btn btn-default')); ?> 
 	</div>
 	</div><!-- end col md 12 -->
 </div>

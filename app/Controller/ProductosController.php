@@ -14,7 +14,7 @@ class ProductosController extends AppController {
  * @var array
  */
 	public $components = array('Paginator');
-	public $uses = array('Producto','Inventarioproductos',);
+	public $uses = array('Producto','Inventarioproductos','Movimientoproducto');
 /**
  * index method
  *
@@ -52,6 +52,25 @@ class ProductosController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Producto->create();
 			if ($this->Producto->save($this->request->data)) {
+				//agregamos al inventario su existencia
+				$nuevoInventario = array(
+					'producto_id'=> $this->Producto->getLastInsertId(),
+					'fechaIngreso'=> date("Y-m-d H:i:s"),
+					'existencia' => $this->data['Producto']['existencia'],
+					'fechaModificacion' => date("Y-m-d H:i:s")
+					);
+				$this->Inventarioproductos->create();
+				$this->Inventarioproductos->save($nuevoInventario);
+				//registramos en movimientos 
+				$movimientoProducto = array(
+					'producto_id'=>$this->Producto->getLastInsertId(),
+					'tipoMovimiento'=>'IN',
+					'fechaMovimiento'=>date("Y-m-d H:i:s"),
+					'cantidad'=>$this->data['Producto']['existencia'],
+					'user_id'=>1
+					);
+				$this->Movimientoproducto->create();
+				$this->Movimientoproducto->save($movimientoProducto);
 				$this->Session->setFlash(__('Se ha grabado con exito'), 'default', array('class' => 'alert alert-success'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
@@ -73,6 +92,24 @@ class ProductosController extends AppController {
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Producto->save($this->request->data)) {
+				//actualizamos al inventario su existencia
+				$inventario = array(							
+					'existencia' => $this->data['Producto']['existencia'],
+					'fechaModificacion' => date("Y-m-d H:i:s")
+					);
+				$this->Inventarioproductos->id=$this->Inventarioproductos->field('id',array('producto_id'=>$id));
+				$this->Inventarioproductos->save($inventario);
+				//registramos en movimientos 
+				$movimientoProducto = array(
+					'producto_id'=>$id,
+					'tipoMovimiento'=>'MO',
+					'fechaMovimiento'=>date("Y-m-d H:i:s"),
+					'cantidad'=>$this->data['Producto']['existencia'],
+					'user_id'=>1
+					);
+				$this->Movimientoproducto->create();
+				$this->Movimientoproducto->save($movimientoProducto);
+
 				$this->Session->setFlash(__('Se ha grabado con exito.'), 'default', array('class' => 'alert alert-success'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
@@ -81,6 +118,8 @@ class ProductosController extends AppController {
 		} else {
 			$options = array('conditions' => array('Producto.' . $this->Producto->primaryKey => $id));
 			$this->request->data = $this->Producto->find('first', $options);
+			$inventarioProducto = $this->Inventarioproductos->find('all', array('conditions' => array('Inventarioproductos.producto_id' => $id)));		
+			$this->set('existencia',$inventarioProducto[0]['Inventarioproductos']['existencia']);
 		}
 	}
 

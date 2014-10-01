@@ -14,7 +14,7 @@ class VentadetallesController extends AppController {
  * @var array
  */
 	public $components = array('Paginator');
-	public $uses = array('Ventadetalle','Inventarioproductos','Movimientoproducto');
+	public $uses = array('Ventadetalle','Inventarioproductos','Movimientoproducto','Pago','Venta');
 /**
  * index method
  *
@@ -37,6 +37,24 @@ class VentadetallesController extends AppController {
 			$sumaVentaTotal += $detalleVenta['Ventadetalle']['precioTotal'];
 		}
 		$this->set('sumaVentaTotal',$sumaVentaTotal);
+		//pagos
+		$pagosVenta = $this->Pago->find('all', array(
+			'conditions' => array('Pago.venta_id' => $id),
+			'recursive' => -1
+			));
+		$sumaPagos = 0;
+		foreach ($pagosVenta as $pago) {
+			$sumaPagos += $pago['Pago']['montoPago'];
+		}
+		//saldo
+		$saldo=$sumaVentaTotal-$sumaPagos;
+		//nombre del vendedor y el cliente
+		$datosVenta = $this->Venta->read(null,$id);
+		$nombreVendedor = $datosVenta['Vendedore']['nombreVendedor'];
+		$nombreCliente = $datosVenta['Cliente']['nombreCliente'];
+		$this->set(compact('sumaVentaTotal','sumaPagos','saldo','nombreVendedor','nombreCliente'));
+
+
 
 	}
 /**
