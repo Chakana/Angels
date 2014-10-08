@@ -54,8 +54,7 @@ class ClientesController extends AppController {
 			} else {
 				$this->Session->setFlash(__('The cliente could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
 			}
-		}
-		$localizaciones = $this->Cliente->Localizacione->find('list');
+		}		
 		$users = $this->Cliente->User->find('list');
 		$this->set(compact('localizaciones', 'users'));
 	}

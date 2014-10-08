@@ -27,7 +27,19 @@ class VentasController extends AppController {
 		$this->set('ventas', $this->Paginator->paginate());
 	}
 
-
+	public function deudasCliente($idCliente=null){
+		$this->Venta->recursive = 1;
+		if($idCliente==null){
+			$options = array('limit'=>5,'conditions'=> array('Venta.estado'=>'PENDIENTE'));	
+		}else{
+			$options = array('limit'=>5,'conditions'=> array('Venta.cliente_id' => $idCliente,'Venta.estado'=>'PENDIENTE'));
+		}
+		
+		$this->Paginator->settings = $options;
+		$this->set('ventas', $this->Paginator->paginate());
+		$clientes = $this->Venta->Cliente->find('list');
+		$this->set(compact('clientes'));
+	}
 
 /**
  * view method
@@ -44,6 +56,33 @@ class VentasController extends AppController {
 		$this->set('venta', $this->Venta->find('first', $options));
 	}
 
+
+
+
+public function addProforma(){
+	$idVenta=0;
+		if ($this->request->is('post')) {
+			$this->Venta->create();
+			$this->set('saved', false); //false by default - controls closure of overlay in which this is opened
+			$insertData = array(
+				'fechaVenta' => date("Y-m-d H:i:s"),		      
+		      'vendedore_id' => $this->data['Venta']['vendedore_id'],
+		      'cliente_id' => $this->data['Venta']['cliente_id'],
+		      'estado' => 'PROFORMA'
+				);
+
+
+			if ($this->Venta->save($insertData)) {	
+				$idVenta= $this->Venta->getLastInsertId();			
+				return $this->redirect(array('controller'=> 'Ventadetalles','action' => 'addDetalleProforma',$idVenta));
+			} else {
+				$this->Session->setFlash(__('La venta no pudo ser registrada,por favor intente de nuevo'), 'default', array('class' => 'alert alert-danger'));
+			}
+		}
+		$vendedores = $this->Venta->Vendedore->find('list');
+		$clientes = $this->Venta->Cliente->find('list');
+		$this->set(compact('vendedores', 'clientes','idVenta'));
+}
 /**
  * add method
  *
@@ -72,6 +111,36 @@ class VentasController extends AppController {
 		$clientes = $this->Venta->Cliente->find('list');
 		$this->set(compact('vendedores', 'clientes','idVenta'));
 
+	}
+
+	public function addVentaTienda(){
+		$idVenta=0;
+		if ($this->request->is('post')) {
+			$this->Venta->create();
+			$this->set('saved', false); //false by default - controls closure of overlay in which this is opened
+			$insertData = array(
+				'fechaVenta' => date("Y-m-d H:i:s"),		      
+		      'vendedore_id' => $this->data['Venta']['vendedore_id'],
+		      'cliente_id' => $this->data['Venta']['cliente_id']
+				);
+
+
+			if ($this->Venta->save($insertData)) {	
+				$idVenta= $this->Venta->getLastInsertId();			
+				return $this->redirect(array('controller'=> 'Ventadetalles','action' => 'addVentaTiendaDetalle',$idVenta));
+			} else {
+				$this->Session->setFlash(__('La venta no pudo ser registrada,por favor intente de nuevo'), 'default', array('class' => 'alert alert-danger'));
+			}
+		}
+		$vendedores = $this->Venta->Vendedore->find('list',array(
+	        'fields' => array('Vendedore.id', 'Vendedore.nombreVendedor'),
+	        'conditions' => array('Vendedore.id' => '1')
+    	));
+		$clientes = $this->Venta->Cliente->find('list',array(
+	        'fields' => array('Cliente.id', 'Cliente.nombreCliente'),
+	        'conditions' => array('Cliente.id' => '1')
+    	));
+		$this->set(compact('vendedores', 'clientes','idVenta'));
 	}
 
 /**

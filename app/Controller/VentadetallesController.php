@@ -57,6 +57,49 @@ class VentadetallesController extends AppController {
 
 
 	}
+
+	public function detalleproformaAjax($id){
+		$this->layout = null;
+		$this->Ventadetalle->recursive = 0;		
+		$options = array('limit'=>100,'conditions' => array('Ventadetalle.venta_id'=> $id));
+		$this->Paginator->settings = $options;
+		$this->set('ventadetalles', $this->Paginator->paginate());
+		$ventadetalles=$this->Ventadetalle->find('all', array('conditions' => array('Ventadetalle.venta_id' =>  $id)));
+		$sumaVentaTotal=0;
+		foreach ($ventadetalles as $detalleVenta ) {
+			$sumaVentaTotal += $detalleVenta['Ventadetalle']['precioTotal'];
+		}
+		$this->set('sumaVentaTotal',$sumaVentaTotal);
+		
+		//nombre del vendedor y el cliente
+		$datosVenta = $this->Venta->read(null,$id);
+		$nombreVendedor = $datosVenta['Vendedore']['nombreVendedor'];
+		$nombreCliente = $datosVenta['Cliente']['nombreCliente'];
+		$this->set(compact('sumaVentaTotal','nombreVendedor','nombreCliente'));
+
+
+
+	}
+
+	public function detalleventatiendaAjax($id){
+		$this->layout = null;
+		$this->Ventadetalle->recursive = 0;		
+		$options = array('limit'=>100,'conditions' => array('Ventadetalle.venta_id'=> $id));
+		$this->Paginator->settings = $options;
+		$this->set('ventadetalles', $this->Paginator->paginate());
+		$ventadetalles=$this->Ventadetalle->find('all', array('conditions' => array('Ventadetalle.venta_id' =>  $id)));
+		$sumaVentaTotal=0;
+		foreach ($ventadetalles as $detalleVenta ) {
+			$sumaVentaTotal += $detalleVenta['Ventadetalle']['precioTotal'];
+		}
+		$this->set('sumaVentaTotal',$sumaVentaTotal);
+		//saldo
+		$saldo=$sumaVentaTotal;
+		//nombre del vendedor y el cliente
+		$datosVenta = $this->Venta->read(null,$id);
+
+		$this->set(compact('sumaVentaTotal','saldo'));	
+	}
 /**
  * view method
  *
@@ -72,6 +115,20 @@ class VentadetallesController extends AppController {
 		$this->set('ventadetalle', $this->Ventadetalle->find('first', $options));
 	}
 
+PUBLIC function addDetalleProforma($ventaId){
+	$this->layout = null;
+		if ($this->request->is('post')) {
+			$this->Ventadetalle->create();
+			if ($this->Ventadetalle->save($this->request->data)) {		
+				return $this->redirect(array('action' => 'detalleproformaAjax',$ventaId));
+			} else {
+				$this->Session->setFlash(__('La venta no pudo ser registrada por favor intente de nuevo.'), 'default', array('class' => 'alert alert-danger'));
+			}
+		}
+		$ventas = $this->Ventadetalle->Venta->find('list');
+		$productos = $this->Ventadetalle->Producto->find('list');
+		$this->set(compact('ventas', 'productos','ventaId'));
+}
 /**
  * add method
  *
@@ -106,10 +163,71 @@ class VentadetallesController extends AppController {
 			}
 		}
 		$ventas = $this->Ventadetalle->Venta->find('list');
-		$productos = $this->Ventadetalle->Producto->find('list');
+		$productos = $this->Ventadetalle->Producto->find('list');		
 		$this->set(compact('ventas', 'productos','ventaId'));
 
 	}
+
+
+public function addVentaTiendaDetalle($ventaId) {
+		$this->layout = null;
+		if ($this->request->is('post')) {
+			$this->Ventadetalle->create();
+			if ($this->Ventadetalle->save($this->request->data)) {		
+				
+				//reducimos la existencia del producto en la cantidad dispuesta
+				$idProducto = $this->data['Ventadetalle']['producto_id'];
+				$cantidad =$this->data['Ventadetalle']['cantidad'];
+				$inventarioProducto=$this->Inventarioproductos->find('first', array('conditions' => array('Inventarioproductos.producto_id' =>  $idProducto)));
+				$cantidadDisponible = $inventarioProducto['Inventarioproductos']['existencia'];
+				$this->Inventarioproductos->read(null, $inventarioProducto['Inventarioproductos']['id']);
+				$this->Inventarioproductos->set('existencia', $cantidadDisponible-$cantidad);
+				$this->Inventarioproductos->save();
+
+				$movimientoProducto = array(
+					'producto_id'=>$this->data['Ventadetalle']['producto_id'],
+					'tipoMovimiento'=>'VTIENDA',
+					'fechaMovimiento'=>date("Y-m-d H:i:s"),
+					'cantidad'=>$cantidad,
+					'user_id'=>1
+					);
+				$this->Movimientoproducto->create();
+				$this->Movimientoproducto->save($movimientoProducto);
+				return $this->redirect(array('action' => 'detalleventatiendaAjax',$ventaId));
+			} else {
+				$this->Session->setFlash(__('La venta no pudo ser registrada por favor intente de nuevo.'), 'default', array('class' => 'alert alert-danger'));
+			}
+		}
+		$ventas = $this->Ventadetalle->Venta->find('list');
+		$productos = $this->Ventadetalle->Producto->find('list');
+		reset($productos);
+		$firstProducto=key($productos);
+
+		$preciosProducto = $this->Ventadetalle->Producto->find('first',array('conditions' => array('Producto.id' => $firstProducto)));
+		$precioUnitario = array(
+			$preciosProducto['Producto']['precio3'] => $preciosProducto['Producto']['precio3'] , 
+			$preciosProducto['Producto']['precio4'] => $preciosProducto['Producto']['precio4'], 
+			);
+		$this->set(compact('ventas', 'productos','ventaId','precioUnitario'));
+
+		
+
+	}
+
+
+
+	public function obtenerPrecios($idProducto) {
+    $this->autoRender = false; // We don't render a view in this example
+    //$this->request->onlyAllow('ajax'); // No direct access via browser URL
+ 	$preciosProducto = $this->Ventadetalle->Producto->find('first',array('conditions' => array('Producto.id' => $idProducto)));
+	$precioUnitario = array(
+		$preciosProducto['Producto']['precio3'] => $preciosProducto['Producto']['precio3'] , 
+		$preciosProducto['Producto']['precio4'] => $preciosProducto['Producto']['precio4'], 
+		);
+
+    return json_encode($precioUnitario);
+}
+
 
 /**
  * edit method

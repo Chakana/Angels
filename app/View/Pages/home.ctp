@@ -53,6 +53,7 @@ App::uses('Debugger', 'Utility');
 					<div class="col-md-4">
 						<?php echo $this->Html->link('Clientes<br />'.$this->Html->tag('i','',array('class'=>'fa fa-users fa-2x')), array('controller' => 'clientes'),array('class'=> 'btn btn-primary col-md-12','role' => 'button', 'escape'=>false)); ?>
 					</div>
+					
 				</div>
 				<div class="row">
 					<div class="col-md-4">
@@ -62,14 +63,17 @@ App::uses('Debugger', 'Utility');
 						<?php echo $this->Html->link('Nuevo Cliente<br />'.$this->Html->tag('i','',array('class'=>'fa fa-plus-square fa-2x')), array('controller' => 'clientes', 'action' => 'add'),array('class'=> 'btn btn-primary col-md-12','role' => 'button', 'escape'=>false)); ?>
 					</div>
 					<div class="col-md-4">
-						<?php echo $this->Html->link('Movimientos<br />'.$this->Html->tag('i','',array('class'=>'fa fa-money fa-2x')), array('controller' => ' Movimientoproductos'),array('class'=> 'btn btn-primary col-md-12','role' => 'button', 'escape'=>false)); ?>
+						<?php echo $this->Html->link('Venta Tienda<br />'.$this->Html->tag('i','',array('class'=>'fa fa-plus fa-2x')), array('controller' => 'ventas','action'=>'addVentaTienda'),array('class'=> 'btn btn-primary col-md-12','role' => 'button', 'escape'=>false)); ?>
 					</div>
+					
 					
 				</div>
 				<div class="row">
-					<div class="col-md-4"></div>
 					<div class="col-md-4">
-						<?php echo $this->Html->link('Usuarios<br />'.$this->Html->tag('i','',array('class'=>'fa fa-user fa-2x')), array('controller' => 'users'),array('class'=> 'btn btn-primary col-md-12','role' => 'button', 'escape'=>false)); ?>
+						<?php echo $this->Html->link('Deudas<br />'.$this->Html->tag('i','',array('class'=>'fa fa-money fa-2x')), array('controller' => 'ventas','action'=>'deudasCliente'),array('class'=> 'btn btn-primary col-md-12','role' => 'button', 'escape'=>false)); ?>
+					</div>
+					<div class="col-md-4">
+						<?php echo $this->Html->link('Movimientos<br />'.$this->Html->tag('i','',array('class'=>'fa fa-money fa-2x')), array('controller' => ' Movimientoproductos'),array('class'=> 'btn btn-primary col-md-12','role' => 'button', 'escape'=>false)); ?>
 					</div>
 					<div class="col-md-4">
 						<?php echo $this->Html->link('Inventario<br />'.$this->Html->tag('i','',array('class'=>'fa fa-money fa-2x')), array('controller' => ' Inventarioproductos'),array('class'=> 'btn btn-primary col-md-12','role' => 'button', 'escape'=>false)); ?>

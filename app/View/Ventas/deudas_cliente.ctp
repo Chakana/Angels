@@ -9,7 +9,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="page-header">
-				<h1><?php echo __('Ventas'); ?></h1>
+				<h1><?php echo __('Deudas'); ?></h1>
 			</div>
 		</div><!-- end col md 12 -->
 	</div><!-- end row -->
@@ -26,11 +26,10 @@
 					<div class="panel-heading">Actions</div>
 						<div class="panel-body">
 							<ul class="nav nav-pills nav-stacked">
-								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nueva Venta'), array('action' => 'add'), array('escape' => false)); ?></li>
+								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Todas las deudas'), array('action' => 'deudasCliente'), array('escape' => false)); ?></li>
 								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Vendedores'), array('controller' => 'vendedores', 'action' => 'index'), array('escape' => false)); ?> </li>
 								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Vendedor'), array('controller' => 'vendedores', 'action' => 'add'), array('escape' => false)); ?> </li>
-								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Clientes'), array('controller' => 'clientes', 'action' => 'index'), array('escape' => false)); ?> </li>	
-								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Todas las deudas'), array('action' => 'deudasCliente'), array('escape' => false)); ?></li>							
+								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Clientes'), array('controller' => 'clientes', 'action' => 'index'), array('escape' => false)); ?> </li>								
 							</ul>
 						</div><!-- end body -->
 				</div><!-- end panel -->
@@ -38,6 +37,10 @@
 		</div><!-- end col md 3 -->
 
 		<div class="col-md-9">
+		
+				<div class="form-group">
+					<?php echo $this->Form->input('cliente_id', array('class' => 'form-control', 'placeholder' => 'cliente'));?>
+				</div>
 			<table cellpadding="0" cellspacing="0" class="table table-hover" id="venta">
 				<thead>
 					<tr>
@@ -80,9 +83,8 @@
 			}
 			echo $this->Number->currency($porPagar)?>&nbsp;</td>
 						<td class="actions">
-							<?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('action' => 'view', $venta['Venta']['id']), array('escape' => false)); ?>
-							<?php echo $this->Html->link('<span class="glyphicon glyphicon-edit"></span>', array('action' => 'edit', $venta['Venta']['id']), array('escape' => false)); ?>
-							<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-remove"></span>', array('action' => 'delete', $venta['Venta']['id']), array('escape' => false), __('Esta seguro de borrar la venta # %s?', $venta['Venta']['id'])); ?>
+							<?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('action' => 'view', $venta['Venta']['id']), array('escape' => false)); ?>							
+							
 						</td>
 
 					</tr>
@@ -133,6 +135,9 @@ $(document).ready(function(){
      });
 
 });
-
+$('#cliente_id').change(function() {
+    var val = $(this).val();  // val is the drug id
+    window.location = '/Angels/ventas/deudasCliente/' + val;
+});
 
 </script>

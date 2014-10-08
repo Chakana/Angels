@@ -18,11 +18,10 @@
 					<div class="panel-heading">Actions</div>
 						<div class="panel-body">
 							<ul class="nav nav-pills nav-stacked">
-								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;New Movimientoproducto'), array('action' => 'add'), array('escape' => false)); ?></li>
+								
 								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;List Productos'), array('controller' => 'productos', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;New Producto'), array('controller' => 'productos', 'action' => 'add'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;List Users'), array('controller' => 'users', 'action' => 'index'), array('escape' => false)); ?> </li>
-		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;New User'), array('controller' => 'users', 'action' => 'add'), array('escape' => false)); ?> </li>
+		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Producto'), array('controller' => 'productos', 'action' => 'add'), array('escape' => false)); ?> </li>
+		
 							</ul>
 						</div><!-- end body -->
 				</div><!-- end panel -->
@@ -34,11 +33,11 @@
 				<thead>
 					<tr>
 						<th><?php echo $this->Paginator->sort('id'); ?></th>
-						<th><?php echo $this->Paginator->sort('producto_id'); ?></th>
+						<th><?php echo $this->Paginator->sort('codigo Producto'); ?></th>
 						<th><?php echo $this->Paginator->sort('tipoMovimiento'); ?></th>
 						<th><?php echo $this->Paginator->sort('fechaMovimiento'); ?></th>
 						<th><?php echo $this->Paginator->sort('cantidad'); ?></th>
-						<th><?php echo $this->Paginator->sort('user_id'); ?></th>
+						<th><?php echo $this->Paginator->sort('usuario'); ?></th>
 						<th class="actions"></th>
 					</tr>
 				</thead>
@@ -47,19 +46,15 @@
 					<tr>
 						<td><?php echo h($movimientoproducto['Movimientoproducto']['id']); ?>&nbsp;</td>
 								<td>
-			<?php echo $this->Html->link($movimientoproducto['Producto']['id'], array('controller' => 'productos', 'action' => 'view', $movimientoproducto['Producto']['id'])); ?>
+			<?php echo $this->Html->link($movimientoproducto['Producto']['nombreProducto'], array('controller' => 'productos', 'action' => 'view', $movimientoproducto['Producto']['id'])); ?>
 		</td>
 						<td><?php echo h($movimientoproducto['Movimientoproducto']['tipoMovimiento']); ?>&nbsp;</td>
 						<td><?php echo h($movimientoproducto['Movimientoproducto']['fechaMovimiento']); ?>&nbsp;</td>
 						<td><?php echo h($movimientoproducto['Movimientoproducto']['cantidad']); ?>&nbsp;</td>
 								<td>
-			<?php echo $this->Html->link($movimientoproducto['User']['id'], array('controller' => 'users', 'action' => 'view', $movimientoproducto['User']['id'])); ?>
+			<?php echo $this->Html->link($movimientoproducto['User']['username'], array('controller' => 'users', 'action' => 'view', $movimientoproducto['User']['id'])); ?>
 		</td>
-						<td class="actions">
-							<?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('action' => 'view', $movimientoproducto['Movimientoproducto']['id']), array('escape' => false)); ?>
-							<?php echo $this->Html->link('<span class="glyphicon glyphicon-edit"></span>', array('action' => 'edit', $movimientoproducto['Movimientoproducto']['id']), array('escape' => false)); ?>
-							<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-remove"></span>', array('action' => 'delete', $movimientoproducto['Movimientoproducto']['id']), array('escape' => false), __('Are you sure you want to delete # %s?', $movimientoproducto['Movimientoproducto']['id'])); ?>
-						</td>
+						
 					</tr>
 				<?php endforeach; ?>
 				</tbody>

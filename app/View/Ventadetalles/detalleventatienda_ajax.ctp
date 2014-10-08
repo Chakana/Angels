@@ -1,29 +1,16 @@
 <div class="ventadetalles index">
-
-	
-
-
-
 	<div class="row">
-
 		<div class="col-md-12">
 			<a class="btn btn-lg btn-primary text-right" id="imprimirVenta" href="#">
-  				<i class="fa fa-print fa-2x"></i> Imprimir</a>
-			<button class="btn btn-primary btn-lg" id="modalButton" data-toggle="modal" data-target="#myModal">
-			  Nuevo Pago
-			</button>
-			<button class="btn btn-primary btn-lg" id="modalButtonDevolucion" data-toggle="modal" data-target="#myModal">
-			  Nota Devolucion
-			</button>				
+  				<i class="fa fa-print fa-2x"></i> Imprimir</a>				
 			<div id="printVentaDetalleArea">
 				<div class="row">
 					<div class="page-header">		
 					  <hr/>			
 					  <h2>CALL TIC S.R.L.</h2>
-					  <h3>Detalle de Venta</h3>
+					  <h3>Detalle de Venta en Tienda</h3>
 					  <hr/>
-					  <h3>Numero de Venta :<small><?php echo h(str_pad($ventadetalles[0]['Venta']['id'],6,'0',STR_PAD_LEFT)); ?></small></h3>
-					  <h3>Vendedor:<small><?php echo h($nombreVendedor); ?></small>Cliente:<small><?php echo h($nombreCliente);?></h3>					  
+					  <h3>Numero de Venta :<small><?php echo h(str_pad($ventadetalles[0]['Venta']['id'],6,'0',STR_PAD_LEFT)); ?></small></h3>					  					  
 					  <h3>Fecha:<small><?php echo h($ventadetalles[0]['Venta']['fechaVenta']); ?></small></h3>
 					</div>	
 					<div id="valIdVenta" style="display:none" ><?php echo h($ventadetalles[0]['Ventadetalle']['venta_id']); ?></div>
@@ -35,23 +22,20 @@
 								<th><?php echo $this->Paginator->sort('Nombre'); ?></th>
 								<th><?php echo $this->Paginator->sort('cantidad'); ?></th>
 								<th><?php echo $this->Paginator->sort('precio Unitario'); ?></th>
-								<th><?php echo $this->Paginator->sort('precio Total'); ?></th>
-								<th class="actions"></th>
+								<th><?php echo $this->Paginator->sort('precio Total'); ?></th>								
 							</tr>
 						</thead>
 						<tbody>
 						<?php foreach ($ventadetalles as $ventadetalle): ?>
 							<tr>		
 								<td>
-									<?php echo $this->Html->link($ventadetalle['Producto']['nombreProducto'], array('controller' => 'productos', 'action' => 'view', $ventadetalle['Producto']['id'])); ?></td>							
+									<?php echo h($ventadetalle['Producto']['nombreProducto']); ?>&nbsp;</td>						
 								<td>
 									<?php echo h($ventadetalle['Producto']['descripcionProducto']); ?>&nbsp;</td>
 								<td ><?php echo h($ventadetalle['Ventadetalle']['cantidad']); ?>&nbsp;</td>							
 								<td><?php echo h($ventadetalle['Ventadetalle']['precioUnitario']); ?>&nbsp;</td>
 								<td><?php echo h($ventadetalle['Ventadetalle']['precioTotal']); ?>&nbsp;</td>
-								<td class="actions">									
-									<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-remove"></span>', array('action' => 'delete', $ventadetalle['Ventadetalle']['id']), array('escape' => false), __('Esta seguro de eliminar # %s?', $ventadetalle['Ventadetalle']['id'])); ?>
-								</td>
+								
 							</tr>
 
 						<?php endforeach; ?>
@@ -61,25 +45,7 @@
 								<td></td>
 								<td>TOTAL VENTA</td>
 								<td><div id = "sumaVentaTotal"><?php echo $this->Number->currency($sumaVentaTotal);?></div></td>
-						</tr>
-						<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td>Pagado</td>
-								<td>
-									<div id="sumaPagos"><?php echo $this->Number->currency($sumaPagos);?></div>
-								</td>
-						</tr>
-						<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td>Saldo</td>
-								<td>
-									<div id="total"><?php echo $this->Number->currency($saldo);?></div>
-								</td>
-						</tr>
+						</tr>						
 						</tbody>
 					</table>
 
@@ -107,42 +73,10 @@
 
 
 </div><!-- end containing of content -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel"></h4>
-      </div>
-      <div class="modal-body">
-       
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>		        
-      </div>
-    </div>
-  </div>
-</div>
+
 
 <script type="text/javascript">
-	 $('#modalButton').click(function (event) {
-	 	var idVenta = parseInt($('#valIdVenta').html()); 	 	
-	 	if(idVenta!=null){
-	 		$('.modal-body').load('/Angels/pagos/add/'+idVenta);
-	 	}		
-	});
-	 $('#modalButtonDevolucion').click(function (event) {
-	 	var idVenta = parseInt($('#valIdVenta').html()); 	 	
-	 	if(idVenta!=null){
-	 		$('.modal-body').load('/Angels/notadevoluciones/add/'+idVenta);
-	 	}		
-	});
-
-	 
-	 $('#myModal').on('hidden.bs.modal', function (e) {	  
-	 	var idVenta = parseInt($('#valIdVenta').html());
-	 	$('#detallesVenta').load('/Angels/ventadetalles/detalleventaAjax/'+idVenta);
-	})
+	
 
 	 $('#imprimirVenta').click(function (event) {	 	
 	 	$('#printVentaDetalleArea').printElement();

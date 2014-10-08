@@ -26,6 +26,12 @@ class ProductosController extends AppController {
 		
 	}
 
+	public function listadoProductos() {
+		$this->Producto->recursive = 2;
+		$this->set('productos', $this->Paginator->paginate());
+		
+	}
+
 /**
  * view method
  *
