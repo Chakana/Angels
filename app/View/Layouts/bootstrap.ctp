@@ -31,7 +31,9 @@
         echo $this->Html->script('jquery-ui-1.10.4');
         echo $this->Html->script('bootstrap');
         echo $this->Html->script('printElement');
+        echo $this->Html->script('select2');
 
+        echo $this->Html->css('select2');
         echo $this->Html->css('jquery-ui-1.10.4');
         echo $this->Html->css('font-awesome');
         echo $this->Html->css(array('bootstrap'));

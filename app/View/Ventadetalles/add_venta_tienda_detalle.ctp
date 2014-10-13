@@ -89,4 +89,6 @@ $('#VentadetalleProductoId').change(function() {
 	var precioUnitario=$('#VentadetallePrecioUnitario').val();  
 	$('#VentadetallePrecioTotal').val(cantidad*precioUnitario);
 
+	$("#VentadetalleProductoId").select2();
+
 </script>

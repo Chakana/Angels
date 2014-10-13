@@ -24,17 +24,7 @@ App::uses('Debugger', 'Utility');
 	<div class="col-md-1"></div>
 	<div class="col-md-4">
 		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">Resumen de Ventas</h3>
-			</div>
-			<div class="panel-body">
-				Numero de ventas realizadas hoy <h3>17</h3> 
-				Suma Total de Ventas a la fecha <h3>18000 Bs</h3>
-				Suma Total de Deudas a cobrar <h3> 8000 Bs</h3>
-				Suma Total de Deudas cobradas <h3> 10000 Bs </h3>
-
-
-			</div>
+			<div id="contadoresVenta"></div>
 		</div>
 	</div>
 	<div class="col-md-6"> 

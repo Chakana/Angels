@@ -14,7 +14,7 @@ class VentasController extends AppController {
  * @var array
  */
 	public $components = array('Paginator');
-	public $uses = array('Venta','Ventadetalles');
+	public $uses = array('Venta','Ventadetalles','Pago');
 /**
  * index method
  *
@@ -189,5 +189,26 @@ public function addProforma(){
 			$this->Session->setFlash(__('La venta no puede ser borrada, por favor intente de nuevo.'), 'default', array('class' => 'alert alert-danger'));
 		}
 		return $this->redirect(array('action' => 'index'));
+	}
+
+	public function contadoresVenta(){
+		$numVentasHoy = 0;
+		$sumaVentasTotal = 0;
+		$sumaDeudas=0;	
+		$sumaDeudasCobradas=0; //esto es la suma de pagos 
+		$fechaHoy = date('Y-m-d');			
+		$ventasHoy = $this->Venta->Ventadetalle->find('all',array('conditions'=> array("DATE_FORMAT(Venta.fechaVenta,'%Y-%m-%d')"=>$fechaHoy),'fields'=>array('sum(Ventadetalle.precioTotal) as total_sum')));		
+		$sumaVentasHoy = $ventasHoy[0][0]['total_sum'];
+		$ventasTotal = $this->Venta->Ventadetalle->find('all',array('fields'=>array('sum(Ventadetalle.precioTotal) as total_sum')));
+		$ventasPendientes=$this->Venta->Ventadetalle->find('all',array('conditions'=> array('Venta.estado'=>'PENDIENTE'),'fields'=>array('sum(Ventadetalle.precioTotal) as total_sum')));
+		$sumaDeudas=$ventasPendientes[0][0]['total_sum'];
+		$sumaVentasTotal = $ventasTotal[0][0]['total_sum'];
+		$deudasCobradas=$this->Pago->find('all',array('conditions'=> array('Venta.estado'=>'PENDIENTE'),'fields'=>array('sum(Pago.montoPago) as total_sum')));		
+		$sumaDeudasCobradas = $deudasCobradas[0][0]['total_sum'];
+
+		$this->set(compact('sumaVentasHoy','sumaVentasTotal','sumaDeudasCobradas','sumaDeudas'));
+
+
+
 	}
 }
