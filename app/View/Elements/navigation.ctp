@@ -12,21 +12,36 @@
     </div>
     <!-- ANGELS-Sistema de control de ventas e inventarios -->
     <nav class="collapse navbar-collapse">    
-      <form class="navbar-form navbar-left" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Buscar Clientes o Vendedores">
-        </div>
-        <button type="submit" class="btn btn-default">Buscar</button>
-      </form>
+     
       <ul class="nav navbar-nav">
-        <li class="active"><?php echo $this->Html->link('Inicio', '/pages/home',array('class'=> '','role' => 'button', 'escape'=>false)); ?></li>
-        <li>
-          <?php echo $this->Html->link('Ventas', array('controller' => 'ventas'),array('class'=> '','role' => 'button', 'escape'=>false)); ?>
-        </li>
-        <li>
-          <?php echo $this->Html->link('Clientes', array('controller' => 'clientes'),array('class'=> '','role' => 'button', 'escape'=>false)); ?>
-        </li>
+         <?php if ($this->Session->read('perfil') == 'admin'): ?>
+          <li class="active"><?php echo $this->Html->link('Inicio', array('controller' => 'pages', 'action' => 'display','home'),array('class'=> '','role' => 'button', 'escape'=>false)); ?></li>
+          <li>
+            <?php echo $this->Html->link('Ventas', array('controller' => 'ventas'),array('class'=> '','role' => 'button', 'escape'=>false)); ?>
+          </li>
+          <li>
+            <?php echo $this->Html->link('Clientes', array('controller' => 'clientes'),array('class'=> '','role' => 'button', 'escape'=>false)); ?>
+          </li>
+         <?php endif; ?>
+         <?php if ($this->Session->read('perfil') == 'vendedor'): ?>          
+          <li>
+            <?php echo $this->Html->link('Ventas', array('controller' => 'ventas','action'=>'addVentaTienda'),array('class'=> '','role' => 'button', 'escape'=>false)); ?>
+          </li>
+         <?php endif; ?>
+
+
       </ul>
+       <?php if (AuthComponent::user('id')): ?>
+              <p class="navbar-text">
+                  Usuario: <?php echo $this->Session->read('Auth.User.username'); ?>
+              </p>
+              <p class="navbar-text">
+                  Rol: <?php echo $this->Session->read('perfil'); ?>
+              </p>              
+              <p class="navbar-text">
+                  <?php echo $this->Html->link('SALIR', array('controller'=>'users', 'action'=>'logout')); ?>
+              </p>
+          <?php endif; ?>
     </nav>
   </div>
 </div>

@@ -56,7 +56,7 @@ class VendedoresController extends AppController {
 				'DomicilioVendedor'=>$this->data['Vendedore']['DomicilioVendedor'],
 				'telefonoVendedor'=>$this->data['Vendedore']['telefonoVendedor'],
 				'documentoIdentidad'=>$this->data['Vendedore']['documentoIdentidad'],
-				'user_id'=>"1"
+				'user_id'=>AuthComponent::user('id')
 				);
 			var_dump($vendedor);
 			if ($this->Vendedore->save($vendedor)) {

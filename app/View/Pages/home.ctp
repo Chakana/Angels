@@ -17,14 +17,14 @@ App::uses('Debugger', 'Utility');
 <br/>
 <br/>
 <div class="row">
-	<div class="alert alert-danger" role="alert">
+	<!--<div class="alert alert-danger" role="alert">
 		Existen deudas a cobrar que han vencido, ingresar <a href="#" class="alert-link">aca</a> para mayor informacion.
 
-	</div>
+	</div>-->
 	<div class="col-md-1"></div>
 	<div class="col-md-4">
-		<div class="panel panel-default">
-			<div id="contadoresVenta"></div>
+		<div class="panel panel-default" id="contadoresVenta">
+			
 		</div>
 	</div>
 	<div class="col-md-6"> 
@@ -69,6 +69,17 @@ App::uses('Debugger', 'Utility');
 						<?php echo $this->Html->link('Inventario<br />'.$this->Html->tag('i','',array('class'=>'fa fa-money fa-2x')), array('controller' => ' Inventarioproductos'),array('class'=> 'btn btn-primary col-md-12','role' => 'button', 'escape'=>false)); ?>
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<?php echo $this->Html->link('Usuarios<br />'.$this->Html->tag('i','',array('class'=>'fa fa-users fa-2x')), array('controller' => 'users'),array('class'=> 'btn btn-primary col-md-12','role' => 'button', 'escape'=>false)); ?>
+					</div>
+					<div class="col-md-4">
+						
+					</div>
+					<div class="col-md-4">
+						<?php echo $this->Html->link('Parametros Sistema<br />'.$this->Html->tag('i','',array('class'=>'fa fa-cubes fa-2x')), array('controller' => 'parametros'),array('class'=> 'btn btn-primary col-md-12','role' => 'button', 'escape'=>false)); ?>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -78,3 +89,7 @@ App::uses('Debugger', 'Utility');
 
 </div>
 
+<script>
+	$('#contadoresVenta').load('/Angels/ventas/contadoresventa/');
+
+</script>

@@ -50,7 +50,7 @@
 								<td><?php echo h($ventadetalle['Ventadetalle']['precioUnitario']); ?>&nbsp;</td>
 								<td><?php echo h($ventadetalle['Ventadetalle']['precioTotal']); ?>&nbsp;</td>
 								<td class="actions">									
-									<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-remove"></span>', array('action' => 'delete', $ventadetalle['Ventadetalle']['id']), array('escape' => false), __('Esta seguro de eliminar # %s?', $ventadetalle['Ventadetalle']['id'])); ?>
+								<!--	<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-remove"></span>', array('action' => 'delete', $ventadetalle['Ventadetalle']['id']), array('escape' => false), __('Esta seguro de eliminar # %s?', $ventadetalle['Ventadetalle']['id'])); ?> -->
 								</td>
 							</tr>
 

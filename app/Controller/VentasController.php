@@ -31,14 +31,24 @@ class VentasController extends AppController {
 		$this->Venta->recursive = 1;
 		if($idCliente==null){
 			$options = array('limit'=>5,'conditions'=> array('Venta.estado'=>'PENDIENTE'));	
+			$optionsTotal = array('conditions'=> array('Venta.estado'=>'PENDIENTE'));
 		}else{
 			$options = array('limit'=>5,'conditions'=> array('Venta.cliente_id' => $idCliente,'Venta.estado'=>'PENDIENTE'));
+			$optionsTotal = array('conditions'=> array('Venta.cliente_id' => $idCliente,'Venta.estado'=>'PENDIENTE'));
+
 		}
 		
 		$this->Paginator->settings = $options;
 		$this->set('ventas', $this->Paginator->paginate());
 		$clientes = $this->Venta->Cliente->find('list');
-		$this->set(compact('clientes'));
+		$totalDeudas = $this->Venta->find('all',$optionsTotal);
+		if($idCliente==null){
+			$nombreCliente='TODOS';
+		}else{
+			$nombreCliente=$totalDeudas[0]['Cliente']['nombreCliente'];
+		}
+		
+		$this->set(compact('clientes','totalDeudas','nombreCliente'));
 	}
 
 /**
@@ -192,19 +202,20 @@ public function addProforma(){
 	}
 
 	public function contadoresVenta(){
+		$this->layout=null;
 		$numVentasHoy = 0;
 		$sumaVentasTotal = 0;
 		$sumaDeudas=0;	
 		$sumaDeudasCobradas=0; //esto es la suma de pagos 
 		$fechaHoy = date('Y-m-d');			
 		$ventasHoy = $this->Venta->Ventadetalle->find('all',array('conditions'=> array("DATE_FORMAT(Venta.fechaVenta,'%Y-%m-%d')"=>$fechaHoy),'fields'=>array('sum(Ventadetalle.precioTotal) as total_sum')));		
-		$sumaVentasHoy = $ventasHoy[0][0]['total_sum'];
+		$sumaVentasHoy = ($ventasHoy[0][0]['total_sum']==null)?0:$ventasHoy[0][0]['total_sum'];		
 		$ventasTotal = $this->Venta->Ventadetalle->find('all',array('fields'=>array('sum(Ventadetalle.precioTotal) as total_sum')));
 		$ventasPendientes=$this->Venta->Ventadetalle->find('all',array('conditions'=> array('Venta.estado'=>'PENDIENTE'),'fields'=>array('sum(Ventadetalle.precioTotal) as total_sum')));
-		$sumaDeudas=$ventasPendientes[0][0]['total_sum'];
-		$sumaVentasTotal = $ventasTotal[0][0]['total_sum'];
+		$sumaDeudas=($ventasPendientes[0][0]['total_sum']==null)?0:$ventasPendientes[0][0]['total_sum'];
+		$sumaVentasTotal = ($ventasTotal[0][0]['total_sum']==null)?0:$ventasTotal[0][0]['total_sum'];
 		$deudasCobradas=$this->Pago->find('all',array('conditions'=> array('Venta.estado'=>'PENDIENTE'),'fields'=>array('sum(Pago.montoPago) as total_sum')));		
-		$sumaDeudasCobradas = $deudasCobradas[0][0]['total_sum'];
+		$sumaDeudasCobradas = ($deudasCobradas[0][0]['total_sum']==null)?0:$deudasCobradas[0][0]['total_sum'];
 
 		$this->set(compact('sumaVentasHoy','sumaVentasTotal','sumaDeudasCobradas','sumaDeudas'));
 

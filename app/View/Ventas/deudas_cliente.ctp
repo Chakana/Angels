@@ -9,7 +9,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="page-header">
-				<h1><?php echo __('Deudas'); ?></h1>
+				<h1><?php echo __('Deudas: '.$nombreCliente); ?></h1>
 			</div>
 		</div><!-- end col md 12 -->
 	</div><!-- end row -->
@@ -29,7 +29,9 @@
 								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Todas las deudas'), array('action' => 'deudasCliente'), array('escape' => false)); ?></li>
 								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Vendedores'), array('controller' => 'vendedores', 'action' => 'index'), array('escape' => false)); ?> </li>
 								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Nuevo Vendedor'), array('controller' => 'vendedores', 'action' => 'add'), array('escape' => false)); ?> </li>
-								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Clientes'), array('controller' => 'clientes', 'action' => 'index'), array('escape' => false)); ?> </li>								
+								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Clientes'), array('controller' => 'clientes', 'action' => 'index'), array('escape' => false)); ?> </li>	
+								<li><a class="btn btn-lg btn-primary text-right" id="imprimirListadoDeuda" href="#">
+  									<i class="fa fa-print fa-2x"></i> Imprimir</a></li>							
 							</ul>
 						</div><!-- end body -->
 				</div><!-- end panel -->
@@ -121,6 +123,61 @@
 
 
 </div><!-- end containing of content -->
+<div id = "impresionDeudas" style='visibility: hidden'>
+	
+	<div class="page-header">		
+	  <hr/>			
+	  <h2>CALL TIC S.R.L.</h2>
+	  <h3>Reporte de Deuda</h3>
+	  <hr/>
+	  <h3>Cliente : <small><?php echo h($nombreCliente); ?></small></h3>
+	  		  
+	  <h3>Fecha:<small><?php echo h(date('Y-m-d')); ?></small></h3>
+</div>
+		<table cellpadding="0" cellspacing="0" class="table table-hover" id="venta">
+			<thead>
+				<tr>
+					<th><?php echo h('Id'); ?></th>
+					<th><?php echo h('Estado'); ?></th>
+					<th><?php echo h('Fecha de Venta'); ?></th>
+					<th><?php echo h('Vendedor'); ?></th>
+					<th><?php echo h('Cliente'); ?></th>
+					<th><?php echo h('Total Venta'); ?></th>
+					<th><?php echo h('Saldo a Pagar'); ?></th>					
+				</tr>
+			</thead>
+			<tbody>
+			
+			<?php foreach ($totalDeudas as $venta): ?>
+				
+				<tr>
+					<td><?php echo h($venta['Venta']['id']); ?>&nbsp;</td>
+					<td><?php echo h($venta['Venta']['estado']); ?>&nbsp;</td>
+					<td><?php echo h($venta['Venta']['fechaVenta']); ?>&nbsp;</td>						
+					<td><?php echo h($venta['Vendedore']['nombreVendedor']); ?>&nbsp;</td>
+					<td><?php echo h($venta['Cliente']['nombreCliente']); ?>&nbsp;</td>
+					<td><?php $sumaVentaDetalles=0; 
+						foreach ($venta['Ventadetalle'] as $ventadetalle ) {
+							$sumaVentaDetalles +=$ventadetalle['precioTotal'];
+						}
+						echo $this->Number->currency($sumaVentaDetalles);?>&nbsp;
+					</td>
+					<td>
+						<?php $ultimoPago=array_pop($venta['Pago']);
+						$porPagar=0;
+						if($ultimoPago==null){
+							$porPagar=$sumaVentaDetalles;
+						}else{
+							$porPagar= $ultimoPago['saldoVenta'];
+						}
+						echo $this->Number->currency($porPagar)?>&nbsp;
+					</td>
+				</tr>
+			<?php endforeach; ?>
+			</tbody>
+		</table>
+
+</div>
 
 <script>
 $(document).ready(function(){
@@ -134,10 +191,16 @@ $(document).ready(function(){
 		$('#contenidoVentaDetalle').load('/Angels/ventadetalles/detalleventaAjax/'+cellValue,{ id: cellValue });
      });
 
+     $("#cliente_id").val("<?php echo $nombreCliente;?>");
+
+
+
 });
 $('#cliente_id').change(function() {
     var val = $(this).val();  // val is the drug id
     window.location = '/Angels/ventas/deudasCliente/' + val;
 });
-
+$('#imprimirListadoDeuda').click(function (event) {	 	
+	 	$('#impresionDeudas').printElement();
+	 });
 </script>

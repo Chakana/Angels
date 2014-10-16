@@ -49,7 +49,8 @@ class NotadevolucionesController extends AppController {
 	public function add($idVenta) {
 		$this->layout = null;
 		$estadoNota='OK';
-		if ($this->request->is('post')) {
+		if ($this->request->is('post') ) {
+
 			$this->Notadevolucione->create();
 			
 			$notaDevolucion = array(
@@ -57,27 +58,32 @@ class NotadevolucionesController extends AppController {
 				'producto_id'=>$this->data['Notadevolucione']['producto_id'],
 				'cantidad'=>$this->data['Notadevolucione']['cantidad'],
 				'fecha'=>date("Y-m-d H:i:s"),
-				'user_id'=>1
+				'user_id'=>AuthComponent::user('id')
 				);
 			if ($this->Notadevolucione->save($notaDevolucion)) {
 				//debemos actualizar el inventario
 				$inventarioProducto=$this->Inventarioproductos->find('first', array('conditions' => array('Inventarioproductos.producto_id' =>  $this->data['Notadevolucione']['producto_id'])));
 				$cantidadDisponible = $inventarioProducto['Inventarioproductos']['existencia'];
-				$cantidad = $this->data['Inventarioproductos']['cantidad'];
+				$cantidad = $this->data['Notadevolucione']['cantidad'];
 				$this->Inventarioproductos->read(null, $inventarioProducto['Inventarioproductos']['id']);
 				$this->Inventarioproductos->set('existencia', $cantidadDisponible+$cantidad);
 				$this->Inventarioproductos->save();
 				//se registra el movimiento
 				$movimientoProducto = array(
-					'producto_id'=>$this->data['Inventarioproductos']['producto_id'],
+					'producto_id'=>$this->data['Notadevolucione']['producto_id'],
 					'tipoMovimiento'=>'DE',
 					'fechaMovimiento'=>date("Y-m-d H:i:s"),
 					'cantidad'=>$cantidad,
-					'user_id'=>1
+					'user_id'=>AuthComponent::user('id')
 					);
 				$this->Movimientoproducto->create();
-				$this->Movimientoproducto->save($movimientoProducto);
-				$estadoNota='NOTA_GRABADA';				
+				if($this->Movimientoproducto->save($movimientoProducto)){
+					$estadoNota='NOTA_GRABADA';	
+				}else{
+					$estadoNota='ERROR_NOTA';
+				}
+				
+
 			} else {
 				$estadoNota='ERROR_NOTA';
 			}

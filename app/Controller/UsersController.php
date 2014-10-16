@@ -8,6 +8,39 @@ App::uses('AppController', 'Controller');
  */
 class UsersController extends AppController {
 
+
+public function beforeFilter() {
+    parent::beforeFilter();
+    // Allow users to register and logout.
+    $this->Auth->allow('add','logout','index','delete');
+}
+
+public function login() {
+    if ($this->request->is('post')) {
+        if ($this->Auth->login()) {
+        	$id_usuario = AuthComponent::user('id');
+			$datos_usuario = $this->User->find('first', array('conditions' => array('User.id' => $id_usuario)));
+			$id_grupo = $datos_usuario['User']['group_id'];
+
+			if($id_grupo == '1') {
+				$this->Session->write('perfil', 'vendedor');
+				return $this->redirect(array('controller' => 'ventas', 'action' => 'addVentaTienda'));
+			}
+
+			if($id_grupo == '3') {
+				$this->Session->write('perfil', 'admin');				
+				return $this->redirect(array('controller' => 'pages', 'action' => 'display','home'));
+			}
+            //return $this->redirect($this->Auth->redirect());
+        }
+        $this->Session->setFlash(__('Usuario o password invalido,intente de nuevo'));
+    }
+}
+
+public function logout() {
+    return $this->redirect($this->Auth->logout());
+}
+
 /**
  * Components
  *

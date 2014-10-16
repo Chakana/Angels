@@ -1,5 +1,5 @@
 <div class="panel-heading">
-	<h3 class="panel-title">Resumen de Ventas</h3>
+	<h1 class="panel-title">Resumen de Ventas</h1>
 </div>
 <div class="panel-body">
 	Numero de ventas realizadas hoy <h3><?php echo $sumaVentasHoy?></h3> 

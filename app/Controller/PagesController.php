@@ -30,12 +30,45 @@ App::uses('AppController', 'Controller');
  */
 class PagesController extends AppController {
 
+public function beforeFilter() {
+    parent::beforeFilter();
+    // Allow users to register and logout.
+    $this->Auth->allow('display');
+}
 /**
  * This controller does not use a model
  *
  * @var array
  */
-	public $uses = array();
+	public $uses = array('User');
+
+
+
+	public function redirectHomePage(){
+		if ($this->Auth->login()) {
+
+			$id_usuario = AuthComponent::user('id');
+			$datos_usuario = $this->User->find('first', array('conditions' => array('User.id' => $id_usuario)));
+			$id_grupo = $datos_usuario['User']['group_id'];
+			switch ($id_grupo) {
+				case '1':
+					return $this->redirect(array('controller' => 'ventas', 'action' => 'addVentaTienda'));
+					break;
+				case '3':
+					return $this->redirect(array('controller' => 'pages', 'action' => 'display','home'));
+					break;
+				
+				
+				default:
+					return $this->redirect(array('controller' => 'pages', 'action' => 'display','publica'));
+					break;
+			}		
+			
+			//return $this->redirect($this->Auth->redirect());
+		}else{
+			return $this->redirect(array('controller' => 'pages', 'action' => 'display','publica'));
+		}
+	}
 
 /**
  * Displays a view

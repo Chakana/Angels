@@ -70,7 +70,9 @@
       <?php echo $this->fetch('content'); ?>
     </div>
     <div id="footer" class="container">      
-      CallTic - Sistema de control de Inventarios y Ventas 2014
+      CALLTIC - Sistema de control de Inventarios y Ventas 2014 
+      <br/>
+      <small>Creado por Ing. Leonardo Quenta - 77585319</small>
     </div>
   </div>
   

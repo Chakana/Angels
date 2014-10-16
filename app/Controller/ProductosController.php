@@ -73,7 +73,7 @@ class ProductosController extends AppController {
 					'tipoMovimiento'=>'IN',
 					'fechaMovimiento'=>date("Y-m-d H:i:s"),
 					'cantidad'=>$this->data['Producto']['existencia'],
-					'user_id'=>1
+					'user_id'=>AuthComponent::user('id')
 					);
 				$this->Movimientoproducto->create();
 				$this->Movimientoproducto->save($movimientoProducto);
@@ -111,7 +111,7 @@ class ProductosController extends AppController {
 					'tipoMovimiento'=>'MO',
 					'fechaMovimiento'=>date("Y-m-d H:i:s"),
 					'cantidad'=>$this->data['Producto']['existencia'],
-					'user_id'=>1
+					'user_id'=>AuthComponent::user('id')
 					);
 				$this->Movimientoproducto->create();
 				$this->Movimientoproducto->save($movimientoProducto);

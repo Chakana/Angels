@@ -137,30 +137,37 @@ PUBLIC function addDetalleProforma($ventaId){
 	public function add($ventaId) {
 		$this->layout = null;
 		if ($this->request->is('post')) {
-			$this->Ventadetalle->create();
-			if ($this->Ventadetalle->save($this->request->data)) {		
-				//reducimos la existencia del producto en la cantidad dispuesta
-				$idProducto = $this->data['Ventadetalle']['producto_id'];
-				$cantidad =$this->data['Ventadetalle']['cantidad'];
-				$inventarioProducto=$this->Inventarioproductos->find('first', array('conditions' => array('Inventarioproductos.producto_id' =>  $idProducto)));
-				$cantidadDisponible = $inventarioProducto['Inventarioproductos']['existencia'];
-				$this->Inventarioproductos->read(null, $inventarioProducto['Inventarioproductos']['id']);
-				$this->Inventarioproductos->set('existencia', $cantidadDisponible-$cantidad);
-				$this->Inventarioproductos->save();
+			$idProducto = $this->data['Ventadetalle']['producto_id'];
+			$cantidad =$this->data['Ventadetalle']['cantidad'];
+			$inventarioProducto=$this->Inventarioproductos->find('first', array('conditions' => array('Inventarioproductos.producto_id' =>  $idProducto)));
+			$cantidadDisponible = $inventarioProducto['Inventarioproductos']['existencia'];
+			if($cantidad>$cantidadDisponible){
+				$this->Session->setFlash(__('La cantidad no puede ser mayor a la existencia,intente de nuevo.'), 'default', array('class' => 'alert alert-danger'));			
+				return $this->redirect(array('controller' => 'pages','action'=>'display','error'));
+				
+				
+			}else{
+				$this->Ventadetalle->create();
+				if ($this->Ventadetalle->save($this->request->data)) {		
+					//reducimos la existencia del producto en la cantidad dispuesta
+					$this->Inventarioproductos->read(null, $inventarioProducto['Inventarioproductos']['id']);
+					$this->Inventarioproductos->set('existencia', $cantidadDisponible-$cantidad);
+					$this->Inventarioproductos->save();
 
-				$movimientoProducto = array(
-					'producto_id'=>$this->data['Ventadetalle']['producto_id'],
-					'tipoMovimiento'=>'VENTA',
-					'fechaMovimiento'=>date("Y-m-d H:i:s"),
-					'cantidad'=>$cantidad,
-					'user_id'=>1
-					);
-				$this->Movimientoproducto->create();
-				$this->Movimientoproducto->save($movimientoProducto);
-				return $this->redirect(array('action' => 'detalleventaAjax',$ventaId));
-			} else {
-				$this->Session->setFlash(__('La venta no pudo ser registrada por favor intente de nuevo.'), 'default', array('class' => 'alert alert-danger'));
-			}
+					$movimientoProducto = array(
+						'producto_id'=>$this->data['Ventadetalle']['producto_id'],
+						'tipoMovimiento'=>'VENTA',
+						'fechaMovimiento'=>date("Y-m-d H:i:s"),
+						'cantidad'=>$cantidad,
+						'user_id'=>AuthComponent::user('id')
+						);
+					$this->Movimientoproducto->create();
+					$this->Movimientoproducto->save($movimientoProducto);
+					return $this->redirect(array('action' => 'detalleventaAjax',$ventaId));
+				} else {
+					$this->Session->setFlash(__('La venta no pudo ser registrada por favor intente de nuevo.'), 'default', array('class' => 'alert alert-danger'));
+				}
+			}			
 		}
 		$ventas = $this->Ventadetalle->Venta->find('list');
 		$productos = $this->Ventadetalle->Producto->find('list');		
@@ -172,30 +179,34 @@ PUBLIC function addDetalleProforma($ventaId){
 public function addVentaTiendaDetalle($ventaId) {
 		$this->layout = null;
 		if ($this->request->is('post')) {
-			$this->Ventadetalle->create();
-			if ($this->Ventadetalle->save($this->request->data)) {		
-				
-				//reducimos la existencia del producto en la cantidad dispuesta
-				$idProducto = $this->data['Ventadetalle']['producto_id'];
-				$cantidad =$this->data['Ventadetalle']['cantidad'];
-				$inventarioProducto=$this->Inventarioproductos->find('first', array('conditions' => array('Inventarioproductos.producto_id' =>  $idProducto)));
-				$cantidadDisponible = $inventarioProducto['Inventarioproductos']['existencia'];
-				$this->Inventarioproductos->read(null, $inventarioProducto['Inventarioproductos']['id']);
-				$this->Inventarioproductos->set('existencia', $cantidadDisponible-$cantidad);
-				$this->Inventarioproductos->save();
+			$idProducto = $this->data['Ventadetalle']['producto_id'];
+			$cantidad =$this->data['Ventadetalle']['cantidad'];
+			$inventarioProducto=$this->Inventarioproductos->find('first', array('conditions' => array('Inventarioproductos.producto_id' =>  $idProducto)));
+			$cantidadDisponible = $inventarioProducto['Inventarioproductos']['existencia'];
+			if($cantidad>$cantidadDisponible){
+				$this->Session->setFlash(__('La cantidad no puede ser mayor a la existencia,intente de nuevo.'), 'default', array('class' => 'alert alert-danger'));			
+			}else{
+				$this->Ventadetalle->create();
+				if ($this->Ventadetalle->save($this->request->data)) {		
+					
+					//reducimos la existencia del producto en la cantidad dispuesta				
+					$this->Inventarioproductos->read(null, $inventarioProducto['Inventarioproductos']['id']);
+					$this->Inventarioproductos->set('existencia', $cantidadDisponible-$cantidad);
+					$this->Inventarioproductos->save();
 
-				$movimientoProducto = array(
-					'producto_id'=>$this->data['Ventadetalle']['producto_id'],
-					'tipoMovimiento'=>'VTIENDA',
-					'fechaMovimiento'=>date("Y-m-d H:i:s"),
-					'cantidad'=>$cantidad,
-					'user_id'=>1
-					);
-				$this->Movimientoproducto->create();
-				$this->Movimientoproducto->save($movimientoProducto);
-				return $this->redirect(array('action' => 'detalleventatiendaAjax',$ventaId));
-			} else {
-				$this->Session->setFlash(__('La venta no pudo ser registrada por favor intente de nuevo.'), 'default', array('class' => 'alert alert-danger'));
+					$movimientoProducto = array(
+						'producto_id'=>$this->data['Ventadetalle']['producto_id'],
+						'tipoMovimiento'=>'VTIENDA',
+						'fechaMovimiento'=>date("Y-m-d H:i:s"),
+						'cantidad'=>$cantidad,
+						'user_id'=>AuthComponent::user('id')
+						);
+					$this->Movimientoproducto->create();
+					$this->Movimientoproducto->save($movimientoProducto);
+					return $this->redirect(array('action' => 'detalleventatiendaAjax',$ventaId));
+				} else {
+					$this->Session->setFlash(__('La venta no pudo ser registrada por favor intente de nuevo.'), 'default', array('class' => 'alert alert-danger'));
+				}
 			}
 		}
 		$ventas = $this->Ventadetalle->Venta->find('list');
@@ -264,16 +275,43 @@ public function addVentaTiendaDetalle($ventaId) {
  * @return void
  */
 	public function delete($id = null) {
+		$this->autoRender=false;
 		$this->Ventadetalle->id = $id;
 		if (!$this->Ventadetalle->exists()) {
-			throw new NotFoundException(__('Invalid ventadetalle'));
+			throw new NotFoundException(__('Registro Invalido'));
 		}
-		$this->request->onlyAllow('post', 'delete');
+		//$this->request->onlyAllow('post', 'delete');
+		$idProducto = $this->Ventadetalle->read('producto_id');		
+		$idProducto = $idProducto['Ventadetalle']['producto_id'];
+		$cantidad = $this->Ventadetalle->read('cantidad');		
+		$cantidad = $cantidad['Ventadetalle']['cantidad'];
+		$idVenta = $this->Ventadetalle->read('venta_id');
+		$idVenta = $idVenta['Ventadetalle']['venta_id'];		
+
+		$inventarioProducto=$this->Inventarioproductos->find('first', array('conditions' => array('Inventarioproductos.producto_id' =>  $idProducto)));
+		$cantidadDisponible = $inventarioProducto['Inventarioproductos']['existencia'];
+		
 		if ($this->Ventadetalle->delete()) {
-			$this->Session->setFlash(__('The ventadetalle has been deleted.'), 'default', array('class' => 'alert alert-success'));
+			//regresar la cantidad al inventario
+			$this->Inventarioproductos->read(null, $inventarioProducto['Inventarioproductos']['id']);
+			$this->Inventarioproductos->set('existencia', $cantidadDisponible+$cantidad);
+			$this->Inventarioproductos->save();
+			//registrar como devolucion el movimiento
+			$movimientoProducto = array(
+				'producto_id'=>$idProducto,
+				'tipoMovimiento'=>'DV',
+				'fechaMovimiento'=>date("Y-m-d H:i:s"),
+				'cantidad'=>$cantidad,
+				'user_id'=>AuthComponent::user('id')
+				);
+			$this->Movimientoproducto->create();
+			$this->Movimientoproducto->save($movimientoProducto);
+			//TODO: si existen pagos asociados a esta venta, no deberia permitirse el borrado
+			//return $this->redirect(array('action' => 'detalleventatiendaAjax',$idVenta));
+			$this->Session->setFlash(__('El registro de venta se ha borrado con exito.'), 'default', array('class' => 'alert alert-success'));
 		} else {
-			$this->Session->setFlash(__('The ventadetalle could not be deleted. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
+			$this->Session->setFlash(__('El registro no pudo borrarse, por favor intente de nuevo.'), 'default', array('class' => 'alert alert-danger'));
 		}
-		return $this->redirect(array('action' => 'index'));
+		//return $this->redirect(array('action' => 'index'));
 	}
 }
