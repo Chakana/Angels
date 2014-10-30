@@ -30,14 +30,15 @@ class ProductosController extends AppController {
 
 	public function listadoProductos() {
 		$this->Producto->recursive = 2;
-		$options = array('Producto.estado'=>1) ;
-		$this->set('productos', $this->Paginator->paginate($options));
+		$options = array('conditions' => array('Producto.estado'=> 1),'order' => array('Producto.nombreProducto'=>'asc'));
+		$this->Paginator->settings = $options;
+		$this->set('productos', $this->Paginator->paginate());
 		
 	}
 
 	public function listadoProductosInactivos(){
 		$this->Producto->recursive = 2;
-		$options = array('conditions' => array('Producto.estado'=> 0));
+		$options = array('conditions' => array('Producto.estado'=> 0),'order' => array('Producto.nombreProducto'=>'asc'));
 		$this->Paginator->settings = $options;
 		$this->set('productos', $this->Paginator->paginate());
 	}
