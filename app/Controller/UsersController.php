@@ -8,6 +8,7 @@ App::uses('AppController', 'Controller');
  */
 class UsersController extends AppController {
 
+public $uses = array('User','Parametros');
 
 public function beforeFilter() {
     parent::beforeFilter();
@@ -21,7 +22,9 @@ public function login() {
         	$id_usuario = AuthComponent::user('id');
 			$datos_usuario = $this->User->find('first', array('conditions' => array('User.id' => $id_usuario)));
 			$id_grupo = $datos_usuario['User']['group_id'];
-
+			$paramTC = $this->Parametros->find('first',array('conditions'=>array('Parametros.nombreParametro' =>'TipoCambioDolares' )));
+			$valorTC = (float)$paramTC['Parametros']['valorParametro'];			
+			$this->Session->write('tc', $valorTC);
 			if($id_grupo == '1') {
 				$this->Session->write('perfil', 'vendedor');
 				return $this->redirect(array('controller' => 'ventas', 'action' => 'addVentaTienda'));

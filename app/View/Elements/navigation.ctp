@@ -37,7 +37,10 @@
               </p>
               <p class="navbar-text">
                   Rol: <?php echo $this->Session->read('perfil'); ?>
-              </p>              
+              </p>  
+              <p class="navbar-text">
+                  Tipo de Cambio: <?php echo $this->Number->currency($this->Session->read('tc')); ?>  
+              </p>            
               <p class="navbar-text">
                   <?php echo $this->Html->link('SALIR', array('controller'=>'users', 'action'=>'logout')); ?>
               </p>
