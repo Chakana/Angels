@@ -38,22 +38,22 @@
 					<?php echo $this->Form->input('categoria', array('class' => 'form-control', 'placeholder' => 'Categoria'));?>
 				</div>
 				<div class="form-group">
-					<?php echo $this->Form->input('precioCompra', array('class' => 'form-control', 'placeholder' => 'Precio Compra'));?>
+					<?php echo $this->Form->input('precioCompra', array('class' => 'form-control', 'placeholder' => 'Precio Compra','default'=>'0'));?>
 				</div>
 				<div class="form-group">
-					<?php echo $this->Form->input('precio1', array('class' => 'form-control', 'placeholder' => 'Precio Venta1'));?>
+					<?php echo $this->Form->input('precio1', array('class' => 'form-control', 'placeholder' => 'Precio Venta1','default'=>'0'));?>
 				</div>
 				<div class="form-group">
-					<?php echo $this->Form->input('precio2', array('class' => 'form-control', 'placeholder' => 'Precio Venta2'));?>
+					<?php echo $this->Form->input('precio2', array('class' => 'form-control', 'placeholder' => 'Precio Venta2','default'=>'0'));?>
 				</div>
 				<div class="form-group">
-					<?php echo $this->Form->input('precio3', array('class' => 'form-control', 'placeholder' => 'Precio Venta3'));?>
+					<?php echo $this->Form->input('precio3', array('class' => 'form-control', 'placeholder' => 'Precio Venta3','default'=>'0'));?>
 				</div>
 				<div class="form-group">
-					<?php echo $this->Form->input('precio4', array('class' => 'form-control', 'placeholder' => 'Precio Venta4'));?>
+					<?php echo $this->Form->input('precio4', array('class' => 'form-control', 'placeholder' => 'Precio Venta4','default'=>'0'));?>
 				</div>
 				<div class="form-group">
-					<?php echo $this->Form->input('existencia', array('class' => 'form-control', 'placeholder' => 'Existencia Inicial'));?>
+					<?php echo $this->Form->input('existencia', array('class' => 'form-control', 'placeholder' => 'Existencia Inicial','default'=>'0'));?>
 				</div>
 				<div class="form-group">
 					<?php echo $this->Form->submit(__('Grabar'), array('class' => 'btn btn-success')); ?>

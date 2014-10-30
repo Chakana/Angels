@@ -22,14 +22,24 @@ class ProductosController extends AppController {
  */
 	public function index() {
 		$this->Producto->recursive = 2;
+		$options = array('conditions' => array('Producto.estado'=> 1));
+		$this->Paginator->settings = $options;
 		$this->set('productos', $this->Paginator->paginate());
 		
 	}
 
 	public function listadoProductos() {
 		$this->Producto->recursive = 2;
-		$this->set('productos', $this->Paginator->paginate());
+		$options = array('Producto.estado'=>1) ;
+		$this->set('productos', $this->Paginator->paginate($options));
 		
+	}
+
+	public function listadoProductosInactivos(){
+		$this->Producto->recursive = 2;
+		$options = array('conditions' => array('Producto.estado'=> 0));
+		$this->Paginator->settings = $options;
+		$this->set('productos', $this->Paginator->paginate());
 	}
 
 /**
@@ -142,11 +152,32 @@ class ProductosController extends AppController {
 			throw new NotFoundException(__('Invalid producto'));
 		}
 		$this->request->onlyAllow('post', 'delete');
-		if ($this->Producto->delete()) {
+		//actualizar estado de producto a 0
+		$this->Producto->read(null, $id);
+		$this->Producto->set('estado', '0');
+		if($this->Producto->save()){
 			$this->Session->setFlash(__('El producto ha sido borrado.'), 'default', array('class' => 'alert alert-success'));
-		} else {
+		}else{
 			$this->Session->setFlash(__('El producto no pudo borrarse, intente de nuevo.'), 'default', array('class' => 'alert alert-danger'));
+		
 		}
 		return $this->redirect(array('action' => 'index'));
+	}
+	public function activarProducto($id=null){
+		$this->Producto->id = $id;
+		if (!$this->Producto->exists()) {
+			throw new NotFoundException(__('Producto Invalido'));
+		}
+		$this->request->onlyAllow('post', 'activar');
+		//actualizar estado de producto a 1
+		$this->Producto->read(null, $id);
+		$this->Producto->set('estado', '1');
+		if($this->Producto->save()){
+			$this->Session->setFlash(__('El producto ha sido activado.'), 'default', array('class' => 'alert alert-success'));
+		}else{
+			$this->Session->setFlash(__('El producto no pudo activarse, intente de nuevo.'), 'default', array('class' => 'alert alert-danger'));
+		
+		}
+		return $this->redirect(array('action' => 'listadoProductosInactivos'));	
 	}
 }

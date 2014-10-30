@@ -58,7 +58,7 @@ class VendedoresController extends AppController {
 				'documentoIdentidad'=>$this->data['Vendedore']['documentoIdentidad'],
 				'user_id'=>AuthComponent::user('id')
 				);
-			var_dump($vendedor);
+			
 			if ($this->Vendedore->save($vendedor)) {
 				$this->Session->setFlash(__('Vendedor grabado exitosamente.'), 'default', array('class' => 'alert alert-success'));
 				return $this->redirect(array('action' => 'index'));

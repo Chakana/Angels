@@ -170,7 +170,7 @@ PUBLIC function addDetalleProforma($ventaId){
 			}			
 		}
 		$ventas = $this->Ventadetalle->Venta->find('list');
-		$productos = $this->Ventadetalle->Producto->find('list');		
+		$productos = $this->Ventadetalle->Producto->find('list',array('conditions'=>array('Producto.estado'=>1)));		
 		$this->set(compact('ventas', 'productos','ventaId'));
 
 	}
@@ -210,7 +210,7 @@ public function addVentaTiendaDetalle($ventaId) {
 			}
 		}
 		$ventas = $this->Ventadetalle->Venta->find('list');
-		$productos = $this->Ventadetalle->Producto->find('list');
+		$productos = $this->Ventadetalle->Producto->find('list',array('conditions'=>array('Producto.estado'=>1)));
 		reset($productos);
 		$firstProducto=key($productos);
 
