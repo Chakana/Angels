@@ -13,7 +13,7 @@
 				<div class="row">
 					<div class="page-header">		
 					  <hr/>			
-					  <h2>CALL TIC S.R.L.</h2>
+					  <h2><?php echo $this->Session->read('nombreEmpresa')?></h2>
 					  <h3>Proforma de Venta</h3>
 					  <hr/>
 					  <h3>Numero de proforma :<small><?php echo h(str_pad($ventadetalles[0]['Venta']['id'],6,'0',STR_PAD_LEFT)); ?></small></h3>
@@ -35,6 +35,7 @@
 						</thead>
 						<tbody>
 						<?php foreach ($ventadetalles as $ventadetalle): ?>
+							
 							<tr>		
 								<td>
 									<?php echo $this->Html->link($ventadetalle['Producto']['nombreProducto'], array('controller' => 'productos', 'action' => 'view', $ventadetalle['Producto']['id'])); ?></td>							
@@ -43,8 +44,9 @@
 								<td ><?php echo h($ventadetalle['Ventadetalle']['cantidad']); ?>&nbsp;</td>							
 								<td><?php echo h($ventadetalle['Ventadetalle']['precioUnitario']); ?>&nbsp;</td>
 								<td><?php echo h($ventadetalle['Ventadetalle']['precioTotal']); ?>&nbsp;</td>
-								<td class="actions">									
-									<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-remove"></span>', array('action' => 'delete', $ventadetalle['Ventadetalle']['id']), array('escape' => false), __('Esta seguro de eliminar # %s?', $ventadetalle['Ventadetalle']['id'])); ?>
+								<td class="actions">	
+									<div id="borrarDet" class="borrarDet" data-val= "<?php echo $ventadetalle['Ventadetalle']['id'];?>" data-ventaid="<?php echo $ventadetalle['Ventadetalle']['venta_id'];?>"><span class="glyphicon glyphicon-remove"></span></div>								
+									
 								</td>
 							</tr>
 
@@ -89,5 +91,25 @@
 	 $('#imprimirVenta').click(function (event) {	 	
 	 	$('#printVentaDetalleArea').printElement();
 	 });
+
+$("body").off("click", ".borrarDet").on("click", ".borrarDet", function(){
+    $.ajax({
+        url: '/Angels/ventadetalles/delete_proforma_detalle/'+ $(this).data('val'),
+        dataType: 'json',
+        type: 'GET',
+        // This is query string i.e. country_id=123
+        data: {},
+        success: function(data) {
+            $('#detallesVenta').load('/Angels/Ventadetalles/detalleproformaAjax/'+ $('#valIdVenta').html());
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });    
+});
+
+
+
+
 
 </script>

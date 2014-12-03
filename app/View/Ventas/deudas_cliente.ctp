@@ -127,7 +127,7 @@
 	
 	<div class="page-header">		
 	  <hr/>			
-	  <h2>CALL TIC S.R.L.</h2>
+	  <h2><?php echo $this->Session->read('nombreEmpresa')?></h2>
 	  <h3>Reporte de Deuda</h3>
 	  <hr/>
 	  <h3>Cliente : <small><?php echo h($nombreCliente); ?></small></h3>
@@ -201,6 +201,8 @@ $('#cliente_id').change(function() {
     window.location = '/Angels/ventas/deudasCliente/' + val;
 });
 $('#imprimirListadoDeuda').click(function (event) {	 	
+		$('#impresionDeudas').attr('style','')
 	 	$('#impresionDeudas').printElement();
+	 	$('#impresionDeudas').attr('style','visibility:hidden');
 	 });
 </script>

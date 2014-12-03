@@ -8,12 +8,20 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>      
-      <?php echo $this->Html->link('CALL TIC', array('controller' => 'ventas'),array('class'=> 'navbar-brand','role' => 'button', 'escape'=>false)); ?>
+      <?php 
+      if(AuthComponent::user('id')){        
+        echo $this->Html->link($this->Session->read('nombreEmpresa'), array('controller' => 'ventas'),array('class'=> 'navbar-brand','role' => 'button', 'escape'=>false));
+      }else{
+         echo $this->Html->link('SISTEMA DE VENTAS E INVENTARIOS', array('controller' => 'pages','action'=>'display','publica'),array('class'=> 'navbar-brand','role' => 'button', 'escape'=>false)); 
+      }?>
+     
     </div>
     <!-- ANGELS-Sistema de control de ventas e inventarios -->
     <nav class="collapse navbar-collapse">    
      
-      <ul class="nav navbar-nav">
+     
+       <?php if (AuthComponent::user('id')): ?>
+         <ul class="nav navbar-nav">
          <?php if ($this->Session->read('perfil') == 'admin'): ?>
           <li class="active"><?php echo $this->Html->link('Inicio', array('controller' => 'pages', 'action' => 'display','home'),array('class'=> '','role' => 'button', 'escape'=>false)); ?></li>
           <li>
@@ -31,8 +39,8 @@
 
 
       </ul>
-       <?php if (AuthComponent::user('id')): ?>
               <p class="navbar-text">
+
                   Usuario: <?php echo $this->Session->read('Auth.User.username'); ?>
               </p>
               <p class="navbar-text">

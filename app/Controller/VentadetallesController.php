@@ -275,7 +275,8 @@ public function addVentaTiendaDetalle($ventaId) {
  * @return void
  */
 	public function delete($id = null) {
-		$this->autoRender=false;
+		$this->layout = null;
+		$this->autoRender = false;
 		$this->Ventadetalle->id = $id;
 		if (!$this->Ventadetalle->exists()) {
 			throw new NotFoundException(__('Registro Invalido'));
@@ -308,10 +309,27 @@ public function addVentaTiendaDetalle($ventaId) {
 			$this->Movimientoproducto->save($movimientoProducto);
 			//TODO: si existen pagos asociados a esta venta, no deberia permitirse el borrado
 			//return $this->redirect(array('action' => 'detalleventatiendaAjax',$idVenta));
-			$this->Session->setFlash(__('El registro de venta se ha borrado con exito.'), 'default', array('class' => 'alert alert-success'));
+			$resultado='exito';
 		} else {
-			$this->Session->setFlash(__('El registro no pudo borrarse, por favor intente de nuevo.'), 'default', array('class' => 'alert alert-danger'));
+			$resultado='error';
 		}
-		//return $this->redirect(array('action' => 'index'));
+		$this->response->body(json_encode($resultado));
+	}
+
+	public function delete_proforma_detalle($id=null){		
+		$this->layout = null;
+		$this->autoRender = false;
+		$this->Ventadetalle->id = $id;
+		if (!$this->Ventadetalle->exists()) {
+			throw new NotFoundException(__('Registro Invalido'));
+		}
+		
+		if ($this->Ventadetalle->delete()) {
+			$resultado='exito';
+		}else{
+			$resultado='error';
+		}
+		$this->response->body(json_encode($resultado));
+
 	}
 }

@@ -59,13 +59,14 @@ public function beforeFilter() {
 					break;
 				
 				
-				default:
+				default:					
 					return $this->redirect(array('controller' => 'pages', 'action' => 'display','publica'));
 					break;
 			}		
 			
 			//return $this->redirect($this->Auth->redirect());
 		}else{
+			
 			return $this->redirect(array('controller' => 'pages', 'action' => 'display','publica'));
 		}
 	}

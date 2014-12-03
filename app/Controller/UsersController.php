@@ -8,7 +8,7 @@ App::uses('AppController', 'Controller');
  */
 class UsersController extends AppController {
 
-public $uses = array('User','Parametros');
+public $uses = array('User','Parametros','Vendedore');
 
 public function beforeFilter() {
     parent::beforeFilter();
@@ -25,6 +25,9 @@ public function login() {
 			$paramTC = $this->Parametros->find('first',array('conditions'=>array('Parametros.nombreParametro' =>'TipoCambioDolares' )));
 			$valorTC = (float)$paramTC['Parametros']['valorParametro'];			
 			$this->Session->write('tc', $valorTC);
+			$nombreEmpresa = $this->Parametros->find('first',array('conditions'=>array('Parametros.nombreParametro' =>'nombreEmpresa' )));
+			$nombreEmpresa = $nombreEmpresa['Parametros']['valorParametro'];			
+			$this->Session->write('nombreEmpresa', $nombreEmpresa);
 			if($id_grupo == '1') {
 				$this->Session->write('perfil', 'vendedor');
 				return $this->redirect(array('controller' => 'ventas', 'action' => 'addVentaTienda'));
@@ -82,18 +85,36 @@ public function logout() {
  * @return void
  */
 	public function add() {
+
 		if ($this->request->is('post')) {
 			$this->User->create();
 			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved.'), 'default', array('class' => 'alert alert-success'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
+				//crear vendedor (todos los usuarios del sistema pueden vender?)
+				$this->Vendedore->create();
+				$vendedor = array(
+				'nombreVendedor'=>$this->data['User']['username'],
+				'fechaNacimiento'=>date("Y-m-d"),
+				'fechaRegistro'=>date("Y-m-d H:i:s"),
+				'fechaModificacion'=>date("Y-m-d H:i:s"),
+				'DomicilioVendedor'=>'0',
+				'telefonoVendedor'=>'0',
+				'documentoIdentidad'=>'0',
+				'user_id'=>$this->User->getLastInsertID()
+				);
+				var_dump($vendedor);
+				if ($this->Vendedore->save($vendedor)) {
+					$this->Session->setFlash(__('Usuario creado exitosamente.'), 'default', array('class' => 'alert alert-success'));
+					return $this->redirect(array('action' => 'index'));
+				} else {
+					$this->Session->setFlash(__('El usuario no pudo ser guardado,intente de nuevo.'), 'default', array('class' => 'alert alert-danger'));
+				}
 			}
 		}
 		$groups = $this->User->Group->find('list');
+		
 		$this->set(compact('groups'));
 	}
+
 
 /**
  * edit method
@@ -135,9 +156,9 @@ public function logout() {
 		}
 		$this->request->onlyAllow('post', 'delete');
 		if ($this->User->delete()) {
-			$this->Session->setFlash(__('The user has been deleted.'), 'default', array('class' => 'alert alert-success'));
+			$this->Session->setFlash(__('El usuario se ha borrado exitosamente.'), 'default', array('class' => 'alert alert-success'));
 		} else {
-			$this->Session->setFlash(__('The user could not be deleted. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
+			$this->Session->setFlash(__('El usuario no pudo ser borrado, intente nuevamente.'), 'default', array('class' => 'alert alert-danger'));
 		}
 		return $this->redirect(array('action' => 'index'));
 	}

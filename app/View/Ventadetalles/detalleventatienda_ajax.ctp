@@ -7,7 +7,7 @@
 				<div class="row">
 					<div class="page-header">		
 					  <hr/>			
-					  <h2>CALL TIC S.R.L.</h2>
+					  <h2><?php echo $this->Session->read('nombreEmpresa')?></h2>
 					  <h3>Detalle de Venta en Tienda</h3>
 					  <hr/>
 					  <h3>Numero de Venta :<small><?php echo h(str_pad($ventadetalles[0]['Venta']['id'],6,'0',STR_PAD_LEFT)); ?></small></h3>					  					  

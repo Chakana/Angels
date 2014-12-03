@@ -104,8 +104,7 @@
 	<thead>
 	<tr>
 		<th><?php echo __('Id'); ?></th>
-		<th><?php echo __('FechaVenta'); ?></th>
-		<th><?php echo __('Descripcion'); ?></th>
+		<th><?php echo __('FechaVenta'); ?></th>		
 		<th><?php echo __('Vendedore Id'); ?></th>
 		<th><?php echo __('Cliente Id'); ?></th>
 		<th class="actions"></th>
@@ -116,7 +115,7 @@
 		<tr>
 			<td><?php echo $venta['id']; ?></td>
 			<td><?php echo $venta['fechaVenta']; ?></td>
-			<td><?php echo $venta['descripcion']; ?></td>
+			
 			<td><?php echo $venta['vendedore_id']; ?></td>
 			<td><?php echo $venta['cliente_id']; ?></td>
 			<td class="actions">

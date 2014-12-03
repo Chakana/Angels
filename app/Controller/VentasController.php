@@ -144,11 +144,11 @@ public function addProforma(){
 		}
 		$vendedores = $this->Venta->Vendedore->find('list',array(
 	        'fields' => array('Vendedore.id', 'Vendedore.nombreVendedor'),
-	        'conditions' => array('Vendedore.id' => '1')
+	        'conditions' => array('Vendedore.user_id' => AuthComponent::user('id'))
     	));
 		$clientes = $this->Venta->Cliente->find('list',array(
 	        'fields' => array('Cliente.id', 'Cliente.nombreCliente'),
-	        'conditions' => array('Cliente.id' => '1')
+	        'conditions' => array('Cliente.nombreCliente' => 'TIENDA')
     	));
 		$this->set(compact('vendedores', 'clientes','idVenta'));
 	}

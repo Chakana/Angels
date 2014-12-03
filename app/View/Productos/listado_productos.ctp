@@ -30,7 +30,7 @@
 		<div id="imprimirListado">
 			<div class="page-header">		
 			  <hr/>			
-			  <h2>CALL TIC S.R.L.</h2>
+			  <h2><?php echo $this->Session->read('nombreEmpresa')?></h2>
 			  <h3>Listado Simple de productos</h3>
 			  <hr/>			  
 			  <h3>Fecha:<small><?php echo date("Y-m-d H:i:s") ?></small></h3>
