@@ -34,11 +34,9 @@
 		<div class="col-md-9">
 			<table cellpadding="0" cellspacing="0" class="table table-striped">
 				<thead>
-					<tr>
-						<th><?php echo $this->Paginator->sort('id'); ?></th>
-						<th><?php echo $this->Paginator->sort('nombre'); ?></th>
-						<th><?php echo $this->Paginator->sort('password'); ?></th>
-						<th><?php echo $this->Paginator->sort('id_grupo'); ?></th>
+					<tr>						
+						<th><?php echo $this->Paginator->sort('nombre'); ?></th>						
+						<th><?php echo $this->Paginator->sort('Grupo'); ?></th>
 						<th><?php echo $this->Paginator->sort('creado'); ?></th>
 						<th><?php echo $this->Paginator->sort('modificado'); ?></th>
 						<th class="actions"></th>
@@ -46,10 +44,8 @@
 				</thead>
 				<tbody>
 				<?php foreach ($users as $user): ?>
-					<tr>
-						<td><?php echo h($user['User']['id']); ?>&nbsp;</td>
-						<td><?php echo h($user['User']['username']); ?>&nbsp;</td>
-						<td><?php echo h($user['User']['password']); ?>&nbsp;</td>
+					<tr>						
+						<td><?php echo h($user['User']['username']); ?>&nbsp;</td>						
 								<td>
 			<?php echo $this->Html->link($user['Group']['name'], array('controller' => 'groups', 'action' => 'view', $user['Group']['id'])); ?>
 		</td>
