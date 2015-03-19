@@ -32,6 +32,7 @@
         echo $this->Html->script('bootstrap');
         echo $this->Html->script('printElement');
         echo $this->Html->script('select2');
+        echo $this->Html->script('bootbox.min');
 
         echo $this->Html->css('select2');
         echo $this->Html->css('jquery-ui-1.10.4');

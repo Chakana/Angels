@@ -34,6 +34,9 @@
 					<?php echo $this->Form->input('id', array('class' => 'form-control', 'placeholder' => 'Id'));?>
 				</div>
 				<div class="form-group">
+					<?php echo $this->Form->input('codigo', array('class' => 'form-control', 'placeholder' => 'Codigo de Barras','default'=>'0','label'=>'Codigo de Barras'));?>
+				</div>
+				<div class="form-group">
 					<?php echo $this->Form->input('nombreProducto', array('class' => 'form-control', 'placeholder' => 'NombreProducto','label'=>'Codigo Producto'));?>
 				</div>
 				<div class="form-group">

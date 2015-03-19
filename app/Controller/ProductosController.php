@@ -67,32 +67,39 @@ class ProductosController extends AppController {
  */
 	public function add() {
 		if ($this->request->is('post')) {
-			$this->Producto->create();
-			if ($this->Producto->save($this->request->data)) {
-				//agregamos al inventario su existencia
-				$nuevoInventario = array(
-					'producto_id'=> $this->Producto->getLastInsertId(),
-					'fechaIngreso'=> date("Y-m-d H:i:s"),
-					'existencia' => $this->data['Producto']['existencia'],
-					'fechaModificacion' => date("Y-m-d H:i:s")
-					);
-				$this->Inventarioproductos->create();
-				$this->Inventarioproductos->save($nuevoInventario);
-				//registramos en movimientos 
-				$movimientoProducto = array(
-					'producto_id'=>$this->Producto->getLastInsertId(),
-					'tipoMovimiento'=>'IN',
-					'fechaMovimiento'=>date("Y-m-d H:i:s"),
-					'cantidad'=>$this->data['Producto']['existencia'],
-					'user_id'=>AuthComponent::user('id')
-					);
-				$this->Movimientoproducto->create();
-				$this->Movimientoproducto->save($movimientoProducto);
-				$this->Session->setFlash(__('Se ha grabado con exito'), 'default', array('class' => 'alert alert-success'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('No se pudo grabar, por favor intente de nuevo.'), 'default', array('class' => 'alert alert-danger'));
-			}
+			//verificamos si no existe el codigo de barras del producto
+			$producto = $this->Producto->find('first',array('conditions' => array('Producto.codigo' => $this->data['Producto']['codigo'])));	
+			if($producto != null){
+				$this->Session->setFlash(__('Este producto ya existe.'), 'default', array('class' => 'alert alert-danger'));
+						
+			}else{
+				$this->Producto->create();
+				if ($this->Producto->save($this->request->data)) {
+					//agregamos al inventario su existencia
+					$nuevoInventario = array(
+						'producto_id'=> $this->Producto->getLastInsertId(),
+						'fechaIngreso'=> date("Y-m-d H:i:s"),
+						'existencia' => $this->data['Producto']['existencia'],
+						'fechaModificacion' => date("Y-m-d H:i:s")
+						);
+					$this->Inventarioproductos->create();
+					$this->Inventarioproductos->save($nuevoInventario);
+					//registramos en movimientos 
+					$movimientoProducto = array(
+						'producto_id'=>$this->Producto->getLastInsertId(),
+						'tipoMovimiento'=>'IN',
+						'fechaMovimiento'=>date("Y-m-d H:i:s"),
+						'cantidad'=>$this->data['Producto']['existencia'],
+						'user_id'=>AuthComponent::user('id')
+						);
+					$this->Movimientoproducto->create();
+					$this->Movimientoproducto->save($movimientoProducto);
+					$this->Session->setFlash(__('Se ha grabado con exito'), 'default', array('class' => 'alert alert-success'));
+					return $this->redirect(array('action' => 'index'));
+				} else {
+					$this->Session->setFlash(__('No se pudo grabar, por favor intente de nuevo.'), 'default', array('class' => 'alert alert-danger'));
+				}
+			}			
 		}
 	}
 
@@ -180,5 +187,46 @@ class ProductosController extends AppController {
 		
 		}
 		return $this->redirect(array('action' => 'listadoProductosInactivos'));	
+	}
+	public function buscarProducto($cadenaBusqueda=null){
+		//$this->autoRender = false; // We don't render a view in this example
+		$this->Producto->recursive = 2;
+		
+		if($cadenaBusqueda==null){
+			$options = array('conditions' => array('Producto.estado'=> 1),'order' => array('Producto.nombreProducto'=>'asc'));
+		}else{
+			$options = array('conditions' => array('Producto.estado'=> 1,'OR'=>array('Producto.codigo LIKE'=>'%'.$cadenaBusqueda.'%','Producto.nombreProducto LIKE'=>'%'.$cadenaBusqueda.'%','Producto.descripcionProducto LIKE'=>'%'.$cadenaBusqueda.'%') ),'order' => array('Producto.nombreProducto'=>'asc'));
+		}
+		
+		$this->Paginator->settings = $options;
+		$this->set('productos', $this->Paginator->paginate());
+	}
+
+	
+	public function obtenerProductoCodigoBarras($codigoBarras) {
+    $this->autoRender = false; // We don't render a view in this example
+    //$this->request->onlyAllow('ajax'); // No direct access via browser URL
+    $producto = null;
+    if($codigoBarras!=null AND $codigoBarras!='' AND $codigoBarras!='0'){
+    	$producto = $this->Producto->find('first',array('conditions' => array('Producto.codigo' => $codigoBarras)));	
+    } 	
+
+    return json_encode($producto);
+	}
+	public function listaProductosSimple($cadenaBusqueda=null){
+		$this->layout = null;
+		
+		//if ($this->request->is('post')) {
+			$this->Producto->recursive = 2;			
+			if($cadenaBusqueda==null){
+				$options = array('conditions' => array('Producto.estado'=> 1),'order' => array('Producto.nombreProducto'=>'asc'));				
+			}else{
+				$options = array('conditions' => array('Producto.estado'=> 1,'OR'=>array('Producto.codigo LIKE'=>'%'.$cadenaBusqueda.'%','Producto.nombreProducto LIKE'=>'%'.$cadenaBusqueda.'%','Producto.descripcionProducto LIKE'=>'%'.$cadenaBusqueda.'%') ),'order' => array('Producto.nombreProducto'=>'asc'));		
+			}		
+			$this->Paginator->settings = $options;
+			$this->set('productos', $this->Paginator->paginate());
+		//}
+		
+
 	}
 }
