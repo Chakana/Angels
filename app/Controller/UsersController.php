@@ -30,7 +30,7 @@ public function login() {
 			$this->Session->write('nombreEmpresa', $nombreEmpresa);
 			if($id_grupo == '1') {
 				$this->Session->write('perfil', 'vendedor');
-				return $this->redirect(array('controller' => 'ventas', 'action' => 'addVentaTienda'));
+				return $this->redirect(array('controller' => 'ventas', 'action' => 'ventaRapida'));
 			}
 
 			if($id_grupo == '3') {

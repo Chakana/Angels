@@ -53,7 +53,7 @@ App::uses('Debugger', 'Utility');
 						<?php echo $this->Html->link('Nuevo Cliente<br />'.$this->Html->tag('i','',array('class'=>'fa fa-plus-square fa-2x')), array('controller' => 'clientes', 'action' => 'add'),array('class'=> 'btn btn-primary col-md-12','role' => 'button', 'escape'=>false)); ?>
 					</div>
 					<div class="col-md-4">
-						<?php echo $this->Html->link('Venta Tienda<br />'.$this->Html->tag('i','',array('class'=>'fa fa-plus fa-2x')), array('controller' => 'ventas','action'=>'addVentaTienda'),array('class'=> 'btn btn-primary col-md-12','role' => 'button', 'escape'=>false)); ?>
+						<?php echo $this->Html->link('Venta Tienda<br />'.$this->Html->tag('i','',array('class'=>'fa fa-plus fa-2x')), array('controller' => 'ventas','action'=>'ventaRapida'),array('class'=> 'btn btn-primary col-md-12','role' => 'button', 'escape'=>false)); ?>
 					</div>
 					
 					

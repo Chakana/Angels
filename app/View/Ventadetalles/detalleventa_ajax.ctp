@@ -7,6 +7,9 @@
 	<div class="row">
 
 		<div class="col-md-12">
+			<?php if($ventadetalles==null){?>
+			<div class="alert alert-info" role="alert">No se han agregado productos aun</div>
+			<?php }else{?>
 			<a class="btn btn-lg btn-primary text-right" id="imprimirVenta" href="#">
   				<i class="fa fa-print fa-2x"></i> Imprimir</a>
 			<button class="btn btn-primary btn-lg" id="modalButton" data-toggle="modal" data-target="#myModal">
@@ -101,7 +104,8 @@
 					</ul>
 					<?php } ?>
 				</div>
-			</div>			
+			</div>	
+			<?php }?>		
 
 		</div> <!-- end col md 9 -->
 	</div><!-- end row -->
@@ -127,13 +131,13 @@
 
 <script type="text/javascript">
 	 $('#modalButton').click(function (event) {
-	 	var idVenta = parseInt($('#valIdVenta').html()); 	 	
+	 	var idVenta = $('#valIdVenta').html(); 	 	
 	 	if(idVenta!=null){
 	 		$('.modal-body').load('/Angels/pagos/add/'+idVenta);
 	 	}		
 	});
 	 $('#modalButtonDevolucion').click(function (event) {
-	 	var idVenta = parseInt($('#valIdVenta').html()); 	 	
+	 	var idVenta = $('#valIdVenta').html(); 	 	
 	 	if(idVenta!=null){
 	 		$('.modal-body').load('/Angels/notadevoluciones/add/'+idVenta);
 	 	}		
@@ -156,7 +160,7 @@
         type: 'GET',
         // This is query string i.e. country_id=123
         data: {},
-        success: function(data) {
+        success: function(data) {        	 	
             $('#detallesVenta').load('/Angels/Ventadetalles/detalleventaAjax/'+ $('#valIdVenta').html());
         },
         error: function(jqXHR, textStatus, errorThrown) {
